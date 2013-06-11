@@ -28,11 +28,11 @@ public class StudentClass implements Serializable {
 	private Date modifiedTime;
 
 	//bi-directional many-to-one association to ClassSection
-	@OneToMany(mappedBy="class")
+	@OneToMany(mappedBy="studentClass")
 	private List<ClassSection> classSections;
 
 	//bi-directional many-to-one association to ClassSubject
-	@OneToMany(mappedBy="class")
+	@OneToMany(mappedBy="studentClass")
 	private List<ClassSubject> classSubjects;
 
 	public StudentClass() {
