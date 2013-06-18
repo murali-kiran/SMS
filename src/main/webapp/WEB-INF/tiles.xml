@@ -10,7 +10,7 @@
 		<put-attribute name="css-content" value="/WEB-INF/views/sections/css.jsp" />
 		<put-attribute name="js-content" value="/WEB-INF/views/sections/js.jsp" />
 		<!-- <put-attribute name="header-content" value="/WEB-INF/views/sections/header.jsp" /> -->
-		<!-- <put-attribute name="side-panel-content" value="/WEB-INF/views/sections/side_panel.jsp" /> -->
+		<put-attribute name="side-panel-content" value="/WEB-INF/views/sections/side_panel.jsp" /> 
 		<!-- <put-attribute name="menu-content" value="" /> -->
 		<!-- <put-attribute name="nav-menu-content" value="/WEB-INF/views/sections/menu_nav.jsp" /> -->
 		<put-attribute name="body-content" value="" />
@@ -49,6 +49,11 @@
 	<definition name="manageClasses" extends="baseDefination">
 		<put-attribute name="title-content" value="Manage Classes" />
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/manageClasses.jsp" />
+	</definition>
+	
+	<definition name="homePage" extends="baseDefination">
+		<put-attribute name="title-content" value="Home" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/homePage.jsp" />
 	</definition>
 	
 </tiles-definitions>       

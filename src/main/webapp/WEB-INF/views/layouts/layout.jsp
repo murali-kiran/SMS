@@ -32,7 +32,9 @@
 				<tiles:insertAttribute name="side-panel-content"/>
 				</div> 
 			--%>
-			SUMADGA SIDE MENU
+			
+			<tiles:insertAttribute name="side-panel-content"/>
+			
 			
 			</td> 
 			<td class="content">

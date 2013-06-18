@@ -1,0 +1,1 @@
+<div style="vertical-align: middle;text-align: center;"><b><i>WELCOME TO SUMADGA</i></b></div>

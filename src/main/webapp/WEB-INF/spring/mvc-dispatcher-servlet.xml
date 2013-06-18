@@ -40,7 +40,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/sms?autoReconnect=true" />
 		<property name="username" value="root" />
-		<property name="password" value="root" />
+		<property name="password" value="mysql" />
 		<property name="initialSize" value="2" />
 		<property name="maxActive" value="5" />
 		<property name="validationQuery" value="select 1" />
@@ -77,15 +77,13 @@
 	<security:intercept-url pattern="/login*/**" access="ROLE_ANONYMOUS,ROLE_USER"/>
     <security:intercept-url pattern="/student*/**" access="ROLE_USER"/>
     <security:intercept-url pattern="/**"  access="ROLE_USER,ROLE_ADMIN"/>
-    <security:form-login login-page="/login" default-target-url="/student" always-use-default-target="true"/>
+    <security:form-login login-page="/login" default-target-url="/homePage" always-use-default-target="true"/>
     <security:logout logout-url="/logout" logout-success-url="/login"/> 
     </security:http>
 	
 	<security:authentication-manager>
-	<security:authentication-provider>
-	<security:user-service>
-	<security:user name="sumadga" authorities="ROLE_USER" password="12345"/>
-	</security:user-service>
+	<security:authentication-provider>	
+	<security:jdbc-user-service id="userDetailsService"  data-source-ref="dataSource" group-authorities-by-username-query="select g.id, g.group_name, ga.authority from groups g, group_members gm, group_authorities ga where gm.username = ? and g.id = ga.group_id and g.id = gm.group_id" />
 	</security:authentication-provider>
 	</security:authentication-manager>
 	

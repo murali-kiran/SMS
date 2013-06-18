@@ -15,39 +15,75 @@ $(function(){
 	});		
 	
 	$('#sectionCount').live("focusout",function(){
-		try {
-		var sections = $(this).val();	
-		if(sections > 0){
-		$("#addClassDiv").css({"width":"95%","display":"inline"});
-		$('#sectionFieldSet > input,label').remove();
-		for(var i = 0;i < sections;i++){
-			$('#sectionFieldSet').append("<label for='section'> Section </label> <input type='text' name='section' value='' /><br/>");
-		}
-		$("#sectionFieldSet").show("fold",1000);
-		}
-		} catch (e) {
+		
+		try{
+			var sections = $(this).val();				
+			$('#newClassDiv > #sectionFieldSetDiv').html("");
+			if(sections > 0){
+				$('#newClassDiv > #sectionFieldSetDiv').html("<fieldset  id='sectionFieldSet' style='display: none;'><legend>Sections</legend></fieldset>");
+				for(var i = 0;i < sections;i++){
+				$('#newClassDiv > #sectionFieldSetDiv > #sectionFieldSet').append("<input type='text' name='section' value='' title='section'/><br/>");
+				}
+				
+				x('#newClassDiv > #sectionFieldSetDiv > #sectionFieldSet > input[type="text"]');
+			}
+			
+			$("#sectionFieldSet").show("fold",1000);
+		}catch (e) {
 			alert(e);
 		}
+		
 	});
 	
 	
 	$('#subjectCount').live("focusout",function(){
-		try {
-		var subjects = $(this).val();	
-		if(subjects > 0){
-		$('#subjectFieldSet > input,label').remove();
-		$("#addClassDiv").css({"width":"95%","display":"inline"});
-		for(var i = 0;i < subjects;i++){
-			$('#subjectFieldSet').append("<label for='subject'> Subject </label> <input type='text' name='subject' value='' /><br/>");
-		}
-		$("#subjectFieldSet").show("fold",1000);
-		}
-		} catch (e) {
+		
+		try{
+			var subjects = $(this).val();	
+			$('#newClassDiv > #subjectFieldSetDiv').html("");
+			if(subjects > 0){
+				$('#newClassDiv > #subjectFieldSetDiv').html("<fieldset style='display: none;' id='subjectFieldSet'><legend>Subject</legend></fieldset>");
+				for(var i = 0;i < subjects;i++){
+				$('#newClassDiv > #subjectFieldSetDiv > #subjectFieldSet').append("<input type='text' name='subject' value='' title='subject'/><br/>");
+				}
+				x('#newClassDiv > #subjectFieldSetDiv > #subjectFieldSet > input[type="text"]');
+			}
+			$("#subjectFieldSet").show("fold",1000);
+		}catch (e) {
 			alert(e);
 		}
+		
+		
 	});
+	
+
+	
+	
 });
 
+function x(id){
+
+$(id).each(function(){
+	 
+    this.value = $(this).attr('title');
+    $(this).css('color','#cdcdcd');
+ 
+    $(this).focus(function(){
+        if(this.value == $(this).attr('title')) {
+            this.value = '';
+            $(this).css('color','');
+        }
+    });
+ 
+    $(this).blur(function(){
+        if(this.value == '') {
+            this.value = $(this).attr('title');
+            $(this).css('color','#cdcdcd');
+        }
+    });
+});
+
+}
 
 function showClassForm(){	
 	try {
@@ -140,17 +176,17 @@ function getSubjects(section){
 			<table>
 				<tr>
 					<td><form:label path="className">Class Name</form:label></td>
-					<td><form:input path="className" /></td>
+					<td><form:input path="className" title=""/></td>
 					<td><form:errors path="className" cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td><form:label path="sectionCount">Number of sections</form:label></td>
-					<td><form:input path="sectionCount" /></td>
+					<td><form:input path="sectionCount" title=""/></td>
 					<td><form:errors path="sectionCount" cssClass="error" /></td>
 				</tr>
 				<tr>
 					<td><form:label path="subjectCount">Number of subject</form:label></td>
-					<td><form:input path="subjectCount" /></td>
+					<td><form:input path="subjectCount" title=""/></td>
 					<td><form:errors path="subjectCount" cssClass="error" /></td>
 				</tr>
 				<tr>
@@ -162,7 +198,7 @@ function getSubjects(section){
 
 			<input type="submit" value=" Add " />
 			
-			<table style="" border="1">
+	<!-- 		<table style="" border="1">
 				<tr>
 					<td>
 						<fieldset style="display: none;" id="sectionFieldSet">
@@ -175,7 +211,11 @@ function getSubjects(section){
 						</fieldset>
 					</td>
 				</tr>
-			</table>
+			</table> -->
+			<div style="border: 1px;" id="newClassDiv">
+			<div style="width:50%;float: left" id="sectionFieldSetDiv"></div>
+			<div style="width:50%;float: left;" id="subjectFieldSetDiv"></div>
+			</div>
 		</form:form>
 	</fieldset>
 </div>
