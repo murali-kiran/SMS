@@ -7,6 +7,9 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>SMS Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <properties>
+  <org.slf4j-version>1.5.10</org.slf4j-version>
+  </properties>
   <dependencies>
 		<dependency>
 			<groupId>junit</groupId>
