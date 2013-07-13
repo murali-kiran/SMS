@@ -2,6 +2,7 @@ package com.sumadga.sms.dto;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="Students")
 public class Student implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -44,12 +46,12 @@ public class Student implements Serializable {
 	private List<AcademicStudent> academicStudents;
 
 	//bi-directional many-to-one association to Address
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name="addressId")
 	private Address address;
 
 	//bi-directional many-to-one association to Parent
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name="parentId")
 	private Parent parent;
 

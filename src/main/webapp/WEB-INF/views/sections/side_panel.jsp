@@ -1,6 +1,9 @@
 <div style="padding-left: 2px; padding:10px; padding-bottom: 30px;">
 <table >
 	<tr height="30px;">
+		<td><a href="${pageContext.servletContext.contextPath}/newStudent">New Student</a></td>
+	</tr>
+	<tr height="30px;">
 		<td><a href="${pageContext.servletContext.contextPath}/student">Student Form</a></td>
 	</tr>
 	

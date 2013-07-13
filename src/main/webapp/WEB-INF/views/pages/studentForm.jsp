@@ -4,120 +4,167 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 <script>
 
-$(function(){
-	$("#dateOfBirth,#joiningDate").datepicker({ 
-		dateFormat: 'mm-dd-yy',
-		maxDate: '0'
-	});
-});
+  $(function() {
+		
+		$("#dateOfBirth,#joiningDate").datepicker({
+			dateFormat : 'mm-dd-yy',
+			maxDate : '0'
+		});
 
-function formValidation(){
-	
-	  try{
-		  
-      var dateStart = $("#dateOfBirth").val();
-	  var dateEnd = $.datepicker.formatDate('mm-dd-yy', new Date()); 
-	  
-	  var startDateSplit =   dateStart.split('-');
-	  var endDateSplit   =   dateEnd.split('-');
-
-	  var stDate = new Date(startDateSplit[2], startDateSplit[0] - 1, startDateSplit[1]);
-	  var enDate = new Date(endDateSplit[2], endDateSplit[0] - 1, endDateSplit[1]);
-
-	  var diff = (enDate.getTime() - stDate.getTime()) / (1000 * 60 * 60 * 24);
-	  
-	  if(diff < 2){
-		  /* 1245 */
-		  alert("Student as to above 3.5 years ");
-		  return false;
-	  }else{
-		  return true;
-	  }
-	  
-	  }
-	  catch (e) {
+		$(':input').prop('disabled', true);
+		
+  });
+  
+  function editStudent(){
+	  try {
+		 $.getJSON("${pageContext.request.contextPath}/saveStudentDetails",{studentId : $('#studentId').val(),name:$('#name').val(),surName:$('#surName').val(),dateOfBirth:$('#dateOfBirth').val(),joiningDate:$('#joiningDate').val(),isPhysicallyChallenged:$('#isPhysicallyChallenged').val(),description:$('#description').val()},function (json){ 
+			 alert(data);
+		 });
+	  } catch (e) {
 			alert(e);
 		}
-	  
-	  alert(diff);
-	  return false;
-}
+  } 
+  function editParent(){
+    	 $.getJSON("${pageContext.request.contextPath}/saveStudentParentDetails", {studentId : $('#studentId').val(),offset:$('#listCount').val(),name:$('').val()},function (json){});
+  }
+  function editPerAddress(){
+	     $.getJSON("${pageContext.request.contextPath}/saveStudentPermanentAddress", {studentId : $('#studentId').val(),offset:$('#listCount').val(),name:$('').val()},function (json){});
+  }
+  function editTempAddress(){
+	    $.getJSON("${pageContext.request.contextPath}/saveStudentTemporaryAddress", {studentId : $('#studentId').val(),name:$('#name').val(),surName:$('#surName').val(),dateOfBirth:$('#dateOfBirth').val(),joiningDate:$('#joiningDate').val(),isPhysicallyChallenged:$('#isPhysicallyChallenged').val(),description:$('#description').val()},function (json){});
+  }
+  function enable(id,funName) {
+		$(id + ' :input').prop('disabled', false);
+		$(id).append('<tr><td align="right" colspan="3" ><input type="button" value="Save"  onclick="'+funName+';"/></td></tr>');
+  }
+	
+  function formValidation() {
+		try {
+			var dateStart = $("#dateOfBirth").val();
+			var dateEnd = $.datepicker.formatDate('mm-dd-yy', new Date());
 
+			var startDateSplit = dateStart.split('-');
+			var endDateSplit = dateEnd.split('-');
+
+			var stDate = new Date(startDateSplit[2], startDateSplit[0] - 1,
+					startDateSplit[1]);
+			var enDate = new Date(endDateSplit[2], endDateSplit[0] - 1,
+					endDateSplit[1]);
+
+			var diff = (enDate.getTime() - stDate.getTime())
+					/ (1000 * 60 * 60 * 24);
+
+			if (diff < 2) {
+				/* 1245 */
+				alert("Student as to above 3.5 years ");
+				return false;
+			} else {
+				return true;
+			}
+
+		} catch (e) {
+			alert(e);
+		}
+		alert(diff);
+		return false;
+	}
 </script>
 
-<form:form method="post" action="${pageContext.servletContext.contextPath}/saveStudentDetails" 
-   modelAttribute="student" onsubmit="return formValidation()" >
+<form:form method="post"
+	action="${pageContext.servletContext.contextPath}/saveStudentDetails"
+	modelAttribute="student" onsubmit="<%-- return formValidation() --%>">
 
-<c:if test="${error}">
-<div class="error">* Required Fields are Mandatory </div>
-</c:if>
-   
-	<table>
-		<tr>
-			<td><form:label path="name">Student Name </form:label></td>
-			<td><form:input path="name" /></td>
-			<td><form:errors path="name" cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><form:label path="surName">Student Surname </form:label></td>
-			<td><form:input path="surName" /></td>
-			<td><form:errors path="surName" cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><form:label path="dateOfBirth">Date of Birth </form:label></td>
-			<td><form:input path="dateOfBirth" id="dateOfBirth" /></td>
-			<td><form:errors path="dateOfBirth" cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><form:label path="joiningDate">Date of joining </form:label></td>
-			<td><form:input path="joiningDate" id="joiningDate" /></td>
-			<td><form:errors path="joiningDate" cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><form:label path="isPhysicallyChallenged">PhysicallyChallenged </form:label></td>
-			<td><form:radiobutton path="isPhysicallyChallenged" value="true"/>Yes &nbsp;
-			<form:radiobutton path="isPhysicallyChallenged" value="false"/>No</td>
-			<td><form:errors path="isPhysicallyChallenged" cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><form:label path="description">Description</form:label></td>
-			<td><form:textarea path="description" /></td>
-			<td><form:errors path="description" cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><form:label path="fatherName">Father Name</form:label></td>
-			<td><form:textarea path="fatherName" /></td>
-			<td><form:errors path="fatherName" cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><form:label path="fatherDesignation">Father Designation</form:label></td>
-			<td><form:textarea path="fatherDesignation" /></td>
-			<td><form:errors path="fatherDesignation" cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><form:label path="motherName">Mother Name</form:label></td>
-			<td><form:textarea path="motherName" /></td>
-			<td><form:errors path="motherName" cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><form:label path="motherDesignation">Mother Designation</form:label></td>
-			<td><form:textarea path="motherDesignation" /></td>
-			<td><form:errors path="motherDesignation" cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><form:label path="gaurdian">Gaurdian</form:label></td>
-			<td><form:textarea path="gaurdian" /></td>
-			<td><form:errors path="gaurdian" cssClass="error" /></td>
-		</tr>	
-	</table>
+	<c:if test="${error}">
+		<div class="error">* Required Fields are Mandatory</div>
+	</c:if>
 
-	<fieldset >
+	<fieldset style="width: 50%;">
+		<legend>Student Details</legend>
+		<div align="right">
+			<a href="#" onclick="enable('#studentTbl','editStudent()');">edit</a>
+		</div>
+		<table id="studentTbl">
+			<tr>
+				<td><form:label path="name">Student Name </form:label></td>
+				<td><form:input path="name" /></td>
+				<td><form:errors path="name" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="surName">Student Surname </form:label></td>
+				<td><form:input path="surName" /></td>
+				<td><form:errors path="surName" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="dateOfBirth">Date of Birth </form:label></td>
+				<td><form:input path="dateOfBirth" id="dateOfBirth" /></td>
+				<td><form:errors path="dateOfBirth" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="joiningDate">Date of joining </form:label></td>
+				<td><form:input path="joiningDate" id="joiningDate" /></td>
+				<td><form:errors path="joiningDate" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="isPhysicallyChallenged">PhysicallyChallenged </form:label></td>
+				<td><form:radiobutton path="isPhysicallyChallenged" value="1"
+						id="isPhysicallyChallenged" />Yes &nbsp; <form:radiobutton
+						path="isPhysicallyChallenged" value="0" />No</td>
+				<td><form:errors path="isPhysicallyChallenged" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="description">Description</form:label></td>
+				<td><form:textarea path="description" /></td>
+				<td><form:errors path="description" cssClass="error" /></td>
+			</tr>
+		</table>
+	</fieldset>
+
+	<fieldset style="width: 50%;">
+		<legend>Parent Details</legend>
+		<div align="right">
+			<a href="#" onclick="enable('#parentTbl','editParent()');">edit</a>
+		</div>
+		<table id="parentTbl">
+			<tr>
+				<td><form:label path="fatherName">Father Name</form:label></td>
+				<td><form:textarea path="fatherName" /></td>
+				<td><form:errors path="fatherName" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="fatherDesignation">Father Designation</form:label></td>
+				<td><form:textarea path="fatherDesignation" /></td>
+				<td><form:errors path="fatherDesignation" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="motherName">Mother Name</form:label></td>
+				<td><form:textarea path="motherName" /></td>
+				<td><form:errors path="motherName" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="motherDesignation">Mother Designation</form:label></td>
+				<td><form:textarea path="motherDesignation" /></td>
+				<td><form:errors path="motherDesignation" cssClass="error" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="gaurdian">Gaurdian</form:label></td>
+				<td><form:textarea path="gaurdian" /></td>
+				<td><form:errors path="gaurdian" cssClass="error" /></td>
+			</tr>
+		</table>
+	</fieldset>
+
+	<fieldset style="width: 50%;">
 		<legend>Permanent Address</legend>
-		<table>
+		<div align="right">
+			<a href="#" onclick="enable('#perAddrTbl','editPerAddress()');">edit</a>
+		</div>
+		<table id="perAddrTbl">
 			<tr>
 				<td><form:label path="address1">Hno </form:label></td>
 				<td><form:textarea path="address1" /></td>
@@ -141,9 +188,12 @@ function formValidation(){
 		</table>
 	</fieldset>
 
-     <fieldset >
+	<fieldset style="width: 50%;">
 		<legend>Temporary Address</legend>
-		<table>
+		<div align="right">
+			<a href="#" onclick="enable('#tempAddrTbl','editTempAddress()');">edit</a>
+		</div>
+		<table id="tempAddrTbl">
 			<tr>
 				<td><form:label path="address2">Hno </form:label></td>
 				<td><form:textarea path="address2" /></td>
@@ -166,7 +216,9 @@ function formValidation(){
 			</tr>
 		</table>
 	</fieldset>
-	
+
+	<input type="hidden" id="studentId" value="${studentId}"></input>
+
 	<input type="submit" value="Create" />
-	
+
 </form:form>

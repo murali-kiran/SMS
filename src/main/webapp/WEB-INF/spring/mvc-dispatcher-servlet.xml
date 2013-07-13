@@ -28,15 +28,16 @@
 		http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security-3.1.xsd">
         
-        <!-- Root Context: defines shared resources visible to all other web components -->
-		<security:http pattern="/resources/**" security="none"/>
+    <!-- Root Context: defines shared resources visible to all other web components -->
+    <security:http pattern="/resources/**" security="none"/>
 
-	<!-- <context:component-scan base-package="com.sumadga" /> -->
+   <!--  <context:component-scan base-package="com.sumadga" /> -->
 	<mvc:annotation-driven /> 
-	<!-- <tx:annotation-driven /> -->
 	
-
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+    <tx:annotation-driven />  
+	
+  
+     	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/sms?autoReconnect=true" />
 		<property name="username" value="root" />
@@ -44,33 +45,27 @@
 		<property name="initialSize" value="2" />
 		<property name="maxActive" value="5" />
 		<property name="validationQuery" value="select 1" />
-	</bean>
-
-	<bean id="jpaVendorAdapter"
-		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+	   </bean>
+	
+      <bean id="jpaVendorAdapter"	class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 		<property name="database" value="MYSQL" />
-		<property name="showSql" value="false" />
+		<property name="showSql" value="true" />
 		<property name="generateDdl" value="false" />
 		<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
-	</bean>
+      </bean>
 
-	<bean id="emf"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    	<bean id="emf"	class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="smsPU" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
-	</bean>
+    	</bean> 
+	
+
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="emf" />
-	</bean>
+	</bean> 
 	
-	
-    <!-- Internal resource View Resolver -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
-		<property name="prefix" value="/WEB-INF/views/" /> 
-		<property name="suffix" value=".jsp" />
-   </bean>
 	
 	<security:http auto-config="true">
 	<security:intercept-url pattern="/" access="ROLE_ANONYMOUS,ROLE_USER"/>
@@ -89,6 +84,13 @@
 	
 	
 	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-	<property name="basename" value="validationProperties/messages"></property>
+	<property name="basename" value="validationProperties/messages"/>
 	</bean>
+	
+	 <!-- Internal resource View Resolver -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="prefix" value="/WEB-INF/views/" /> 
+		<property name="suffix" value=".jsp" />
+    </bean>
+   
 </beans>

@@ -1,8 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0">
+	<persistence-unit name="smsPU">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-	<persistence-unit name="smsPU" />
+		<class>com.sumadga.sms.dto.AcademicStudent</class>
+		<class>com.sumadga.sms.dto.Address</class>
+		<class>com.sumadga.sms.dto.ClassSection</class>
+		<class>com.sumadga.sms.dto.ClassSubject</class>
+		<class>com.sumadga.sms.dto.ExamResult</class>
+		<class>com.sumadga.sms.dto.ExamTimeTable</class>
+		<class>com.sumadga.sms.dto.ExamType</class>
+		<class>com.sumadga.sms.dto.Location</class>
+		<class>com.sumadga.sms.dto.MainTable</class>
+		<class>com.sumadga.sms.dto.Parent</class>
+		<class>com.sumadga.sms.dto.Section</class>	
+		<class>com.sumadga.sms.dto.Staff</class>
+		<class>com.sumadga.sms.dto.StudentClass</class>
+		<class>com.sumadga.sms.dto.Subject</class>
+		<class>com.sumadga.sms.dto.SubjectTimeTable</class>
+		<class>com.sumadga.sms.dto.TeachingStaff</class>
+		<class>com.sumadga.sms.dto.TeachingStaffSubject</class>
+		
+		<properties>
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/sms?autoReconnect=true" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password" value="mysql" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+		</properties>
+		
+	</persistence-unit>
 
-</persistence>
+</persistence> 
+
+ 

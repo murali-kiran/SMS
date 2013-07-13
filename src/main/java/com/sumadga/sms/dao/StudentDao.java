@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,9 @@ public class StudentDao {
 		} catch (RuntimeException re) {
 			logger.error("save failed", re);
 			throw re;
+		} catch(Exception e){
+			logger.error("save failed", e);
+			e.printStackTrace();
 		}
 	}
 

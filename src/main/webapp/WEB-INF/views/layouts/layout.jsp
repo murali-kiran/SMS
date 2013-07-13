@@ -6,8 +6,8 @@
 <head>
 <title>SMS | <%-- <tiles:insertAttribute name="header-title-content" /> --%></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<tiles:insertAttribute name="css-content" />
 <tiles:insertAttribute name="js-content" />
+<tiles:insertAttribute name="css-content" />
 </head>
 <body style="margin: 0px; padding: 0px;">
 

@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery.ui.spinner.css" />
-<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/layout.css" />
- <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/resources/css/bootstrap.css" >
+<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" /> -->
+<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/css/layout.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/resources/css/bootstrap.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/resources/css/style.css" media="screen" /> 
 
 <style type="text/css">
 	.error {

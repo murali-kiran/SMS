@@ -46,6 +46,12 @@
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/studentForm.jsp" />
 	</definition>
 	
+	
+	<!--  <definition name="newStudent" extends="baseDefination">
+		<put-attribute name="title-content" value="Student Form" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/newStudent.jsp" />
+	</definition>  -->
+	
 	<definition name="manageClasses" extends="baseDefination">
 		<put-attribute name="title-content" value="Manage Classes" />
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/manageClasses.jsp" />

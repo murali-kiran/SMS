@@ -2,6 +2,7 @@ package com.sumadga.sms.model;
 
 public class StudentForm {
 
+	private Integer studentId;
 	private String name;
 	private String surName;
 	private String dateOfBirth;
@@ -21,6 +22,16 @@ public class StudentForm {
 	private String pincode2;
 	private String state1;
 	private String state2;
+	
+	
+
+	public Integer getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(Integer studentId) {
+		this.studentId = studentId;
+	}
 
 	public String getName() {
 		return name;

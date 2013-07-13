@@ -12,7 +12,7 @@ public class CommonUtils {
 		DateFormat fomatter = new SimpleDateFormat("yyyy-mm-dd");
 		try {
 			Date date = fomatter.parse(dateStr);
-			System.out.println("Time : " + date.getTime());
+			System.out.println("Time : " + date.toString());
 			return date;
 		} catch (ParseException e) {
 			e.printStackTrace();
