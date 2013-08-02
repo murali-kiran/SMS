@@ -1,6 +1,5 @@
 package com.sumadga.sms.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,36 +12,36 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sumadga.sms.dto.Staff;
+import com.sumadga.sms.dto.Designations;
 
 @Repository
-public class StaffDao {
+public class DesignationsDao {
 
-	private static final Logger logger = Logger.getLogger(StaffDao.class);
-
+	private static final Logger logger = Logger.getLogger(DesignationsDao.class);
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public void save(Staff entity) {
-		logger.info("saving Staff instance");
+	public void save(Designations entity) {
+		logger.info("saving designations instance");
 		try {
-			entity.setCreatedTime(new Date());
-			entity.setModifiedTime(new Date());
-			entityManager.merge(entity);
+			entityManager.persist(entity);
 			logger.info("save successful");
 		} catch (RuntimeException re) {
 			logger.error("save failed", re);
 			throw re;
+		} catch(Exception e){
+			logger.error("save failed", e);
+			e.printStackTrace();
 		}
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public void delete(Staff entity) {
-		logger.info("deleting Staff instance");
+	public void delete(Designations entity) {
+		logger.info("deleting designations instance");
 		try {
-			entity = entityManager.getReference(Staff.class,
-					entity.getStaffId());
+			entity = entityManager.getReference(Designations.class,entity.getDesignationId());
 			entityManager.remove(entity);
 			logger.info("delete successful");
 		} catch (RuntimeException re) {
@@ -52,11 +51,10 @@ public class StaffDao {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public Staff update(Staff entity) {
-		logger.info("updating Staff instance");
+	public Designations update(Designations entity) {
+		logger.info("updating designations instance");
 		try {
-			entity.setModifiedTime(new Date());
-			Staff result = entityManager.merge(entity);
+			Designations result = entityManager.merge(entity);
 			logger.info("update successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -65,10 +63,10 @@ public class StaffDao {
 		}
 	}
 
-	public Staff findById(Long id) {
-		logger.info("finding Staff instance with id: " + id);
+	public Designations findById(Integer id) {
+		logger.info("finding Designations instance with id: " + id);
 		try {
-			Staff instance = entityManager.find(Staff.class, id);
+			Designations instance = entityManager.find(Designations.class, id);
 			return instance;
 		} catch (RuntimeException re) {
 			logger.error("find failed", re);
@@ -77,16 +75,16 @@ public class StaffDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Staff> findByProperty(String propertyName,
+	public List<Designations> findByProperty(String propertyName,
 			final Object value, final int... rowStartIdxAndCount) {
-		logger.info("finding Staff instance with property: "
+		logger.info("finding Designations instance with property: "
 				+ propertyName + ", value: " + value);
 		try {
-			final String queryString = "select model from Staff model where model."
+			final String queryString = "select model from Designations model where model."
 					+ propertyName + "= :propertyValue";
 
 			Query query = entityManager.createQuery(queryString,
-					Staff.class);
+					Designations.class);
 			query.setParameter("propertyValue", value);
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
@@ -109,12 +107,13 @@ public class StaffDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Staff> findAll(final int... rowStartIdxAndCount) {
-		logger.info("finding all Staff instances");
+	public List<Designations> findAll(final int... rowStartIdxAndCount) {
+		
+		logger.info("finding all Designations instances");
 		try {
-			final String queryString = "select model from Staff model";
+			final String queryString = "select model from Designations model";
 			Query query = entityManager.createQuery(queryString,
-					Staff.class);
+					Designations.class);
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
 				if (rowStartIdx > 0) {
@@ -133,5 +132,22 @@ public class StaffDao {
 			logger.error("find all failed", re);
 			throw re;
 		}
+		
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Designations> isDesignationExist(String designationName,Byte isTeactingStaff){
+		logger.info("finding Designation exist");
+		try {
+			final String queryString = "select model from Designations model where model.designation = :name and model.isTeaching = :isTeaching";
+			Query query = entityManager.createQuery(queryString,Designations.class);
+			query.setParameter("name", designationName);
+			query.setParameter("isTeaching", isTeactingStaff);
+			return query.getResultList();
+		} catch (RuntimeException re) {
+			logger.error("find all failed", re);
+			throw re;
+		}
+	}
+	
 }

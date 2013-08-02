@@ -19,33 +19,33 @@ public class StudentDetailsSaveValidator extends GenericValidations implements V
 	@Override
 	public void validate(Object target, Errors errors) {
 
-		/*		ValidationUtils.rejectIfEmptyOrWhitespace(error,"name","required.name", "* Name is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"surName","required.surName", "* Surname is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"dateOfBirth","required.dateOfBirth", "* Dob is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"isPhysicallyChallenged","required.isPhysicallyChallenged", "* PhysicallyChallenged is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"description","required.description", "* Description is required");			
+		/*		ValidationUtils.rejectIfEmptyOrWhitespace(error,"name","name", "* Name is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"surName","surName", "* Surname is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"dateOfBirth","dateOfBirth", "* Dob is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"isPhysicallyChallenged","isPhysicallyChallenged", "* PhysicallyChallenged is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"description","description", "* Description is required");			
 		 */	
 
 		StudentForm studentForm = (StudentForm)target;
 
 		if(Utils.isEmpty(studentForm.getName())){
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"name","required.name", "* Name is required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"name","name", "* Name is required");
 		}
 
 		if(Utils.isEmpty(studentForm.getSurName())){
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"surName","required.surName", "* Surname is required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"surName","surName", "* Surname is required");
 		}
 
 		if(Utils.isEmpty(studentForm.getDateOfBirth())){
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"dateOfBirth","required.dateOfBirth", "* Dob is required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"dateOfBirth","dateOfBirth", "* Dob is required");
 		}
 
 		if(Utils.isEmpty(studentForm.getIsPhysicallyChallenged()+"")){
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"isPhysicallyChallenged","required.isPhysicallyChallenged", "* PhysicallyChallenged is required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"isPhysicallyChallenged","isPhysicallyChallenged", "* PhysicallyChallenged is required");
 		}
 
 		if(Utils.isEmpty(studentForm.getDescription())){
-			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"description","required.description", "* Description is required");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"description","description", "* Description is required");
 		}
 
 

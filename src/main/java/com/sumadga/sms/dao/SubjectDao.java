@@ -1,5 +1,6 @@
 package com.sumadga.sms.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -26,6 +27,8 @@ public class SubjectDao {
 	public void save(Subject entity) {
 		logger.info("saving Subject instance");
 		try {
+			entity.setCreatedTime(new Date());
+			entity.setModifiedTime(new Date());
 			entityManager.persist(entity);
 			logger.info("save successful");
 		} catch (RuntimeException re) {

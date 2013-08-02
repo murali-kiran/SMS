@@ -2,6 +2,7 @@ package com.sumadga.sms.dto;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.Date;
 
 
@@ -16,11 +17,14 @@ public class Staff implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int staffId;
-
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdTime;
 
-	private String designation;
+	//bi-directional many-to-one association to Designation
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinColumn(name="designationId")
+	private Designations designations;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date joiningDate;
@@ -29,6 +33,9 @@ public class Staff implements Serializable {
 	private Date modifiedTime;
 
 	private String name;
+	
+	private String isTeachinfStaff;
+	
 
 	//bi-directional one-to-one association to TeachingStaff
 	@OneToOne(mappedBy="staff", fetch=FetchType.LAZY)
@@ -53,12 +60,14 @@ public class Staff implements Serializable {
 		this.createdTime = createdTime;
 	}
 
-	public String getDesignation() {
-		return this.designation;
+	
+
+	public Designations getDesignations() {
+		return designations;
 	}
 
-	public void setDesignation(String designation) {
-		this.designation = designation;
+	public void setDesignations(Designations designations) {
+		this.designations = designations;
 	}
 
 	public Date getJoiningDate() {
@@ -92,5 +101,16 @@ public class Staff implements Serializable {
 	public void setTeachingStaff(TeachingStaff teachingStaff) {
 		this.teachingStaff = teachingStaff;
 	}
+
+
+	public String getIsTeachinfStaff() {
+		return isTeachinfStaff;
+	}
+
+	public void setIsTeachinfStaff(String isTeachinfStaff) {
+		this.isTeachinfStaff = isTeachinfStaff;
+	}
+	
+	
 
 }

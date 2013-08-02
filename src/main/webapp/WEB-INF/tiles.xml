@@ -52,7 +52,7 @@
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/newStudent.jsp" />
 	</definition>  -->
 	
-	<definition name="manageClasses" extends="baseDefination">
+   <definition name="manageClasses" extends="baseDefination">
 		<put-attribute name="title-content" value="Manage Classes" />
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/manageClasses.jsp" />
 	</definition>
@@ -61,5 +61,33 @@
 		<put-attribute name="title-content" value="Home" />
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/homePage.jsp" />
 	</definition>
+	
+	<definition name="createNewClass" extends="baseDefination">
+		<put-attribute name="title-content" value="Create Class" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/createClass.jsp" />
+	</definition>
+	
+	<definition name="createNewSubject" extends="baseDefination">
+		<put-attribute name="title-content" value="Create Subjects" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/createSubject.jsp" />
+	</definition>
+	
+	<definition name="createNewEmployee" extends="baseDefination">
+		<put-attribute name="title-content" value="Create Employee" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/createEmployee.jsp" />
+	</definition>	
+	
+	<definition name="createDesignations" extends="baseDefination">
+		<put-attribute name="title-content" value="Create Designation" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/createDesignations.jsp" />
+	</definition>
+	
+	<definition name="createStaff" extends="baseDefination">
+		<put-attribute name="title-content" value="Create Staff" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/createStaff.jsp" />
+	</definition>
+		
+	
+
 	
 </tiles-definitions>       

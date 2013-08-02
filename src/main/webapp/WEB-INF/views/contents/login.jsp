@@ -62,7 +62,7 @@
 							<span><input name="submit" type="submit" value="Sign in" /></span>
 							<span style="float: right;">
 								<label for="_spring_security_remember_me" class="checkboxLabel">
-			                        <input type='checkbox' name='_spring_security_remember_me' id="_spring_security_remember_me" tabindex="3" value="true"/>Stay signed in
+			                        <input type='checkbox' name='_spring_security_remember_me' id="_spring_security_remember_me" tabindex="3" value="true"/>Remember Me?
 			                    </label>
 		                    </span>
 						</div>

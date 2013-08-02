@@ -21,34 +21,34 @@ public class StudentFormValidator extends GenericValidations implements Validato
 		
 		StudentForm studentForm = (StudentForm)target;
 		
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"name","required.name", "* Name is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"surName","required.surName", "* Surname is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"dateOfBirth","required.dateOfBirth", "* Dob is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"isPhysicallyChallenged","required.isPhysicallyChallenged", "* PhysicallyChallenged is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"description","required.description", "* Description is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"fatherName","required.fatherName", "* Father name is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"fatherDesignation","required.fatherDesignation", "* Father designation is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"motherName","required.motherName", "* Mother Name is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"motherDesignation","required.motherDesignation", "* Mother designation is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"gaurdian","required.gaurdian", "* Gaurdian is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"address1","required.address1", "* Address is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"address2","required.address2", "* Address is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"pincode1","required.pincode1", "* Pincode is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"pincode2","required.pincode2", "* Pincode is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"state1","required.state1", "* State is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"state2","required.state2", "* State is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"district1","required.district1", "* District is required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(error,"district2","required.district2", "* District is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"name","name", "* Name is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"surName","surName", "* Surname is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"dateOfBirth","dateOfBirth", "* Dob is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"isPhysicallyChallenged","isPhysicallyChallenged", "* PhysicallyChallenged is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"description","description", "* Description is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"fatherName","fatherName", "* Father name is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"fatherDesignation","fatherDesignation", "* Father designation is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"motherName","motherName", "* Mother Name is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"motherDesignation","motherDesignation", "* Mother designation is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"gaurdian","gaurdian", "* Gaurdian is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"address1","address1", "* Address is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"address2","address2", "* Address is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"pincode1","pincode1", "* Pincode is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"pincode2","pincode2", "* Pincode is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"state1","state1", "* State is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"state2","state2", "* State is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"district1","district1", "* District is required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(error,"district2","district2", "* District is required");
 		
 			
 			if((!pinCodeValidator(studentForm.getPincode1()))&&(studentForm.getPincode1().trim().length()>0)){
 				
-				error.rejectValue("pincode1", "required.pincode1","* Please Enter valid pincode");
+				error.rejectValue("pincode1", "pincode1","* Please Enter valid pincode");
 			}
 			
 			if((!pinCodeValidator(studentForm.getPincode2()))&&(studentForm.getPincode2().trim().length()>0)){
 				
-				error.rejectValue("pincode2", "required.pincode2","* Please Enter valid pincode");
+				error.rejectValue("pincode2", "pincode2","* Please Enter valid pincode");
 			}
 			
 		

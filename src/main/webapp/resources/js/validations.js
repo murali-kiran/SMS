@@ -14,3 +14,6 @@ function isNumeric(target) {
 	var regEx = /\d{6}/g;
     return regEx.test(target);
 }
+
+
+
