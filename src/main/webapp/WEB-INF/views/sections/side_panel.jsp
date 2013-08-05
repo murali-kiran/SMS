@@ -27,7 +27,9 @@
 		<td><a href="${pageContext.servletContext.contextPath}/createDesignations">Add Designation</a></td>
 	</tr>
 	
-	
+	<tr height="30px;">
+		<td><a href="${pageContext.servletContext.contextPath}/showTeacherAndSubjectMapping">Teacher And SubjectsMapping</a></td>
+	</tr>
 	
 </table>
 </div>

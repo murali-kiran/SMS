@@ -10,8 +10,6 @@
 			dateFormat : 'mm-dd-yy',
 			maxDate : '0'
 		});
-
-	
 		
 		$('#subjectCount').on("focusout",function(){
 			
@@ -74,10 +72,9 @@
 	  
 	  if($('#subjectCount').val() == '0'){
 		  $('#error').val("Number of subjects are zero");
-		  status = false;
+		  return false;
 	  }else{
 		  
-//		  var vrows = document.getElementsByName("subject");
 		  var $inputs = $('[name="subject"]');
 		  
 			for(var i=0;i < $inputs.length;i++){
@@ -100,24 +97,21 @@
 						subjectStr=subjectStr+","+$inputs.eq(i).val();
 					}
 				}
-				  $.getJSON( "${pageContext.servletContext.contextPath}/alreadySubjectExist", { subjectsCount : $('#subjectCount').val(),subjects:subjectStr},function(json) {
+				  $.getJSON("${pageContext.servletContext.contextPath}/alreadySubjectExist", { subjectsCount : $('#subjectCount').val(),subjects:subjectStr},function(json) {
 					  if(json.status){
 						  alert("message : "+json.message);
 						  $('.error').text(json.message);
-						    status = false;
+						  status = false;
 						  }
 					  else{
-							status = true;
+						  status = true;
 						  }
 				  });
 			}
+			alert(status);
+			return status;
 		  
-/**		  if(isMoreThenOne_TxtBoxHaveSameValue($('#subject'))){
-			  $('#subject').val(" More then one subjects are "); 
-		  } */
 	  }
-	  
-	  return status;
 		} catch (e) {
 			alert(e);
 		}
@@ -143,7 +137,6 @@
 <form method="post"	action="${pageContext.servletContext.contextPath}/saveNewSubjects" onsubmit="return formValidation();">
 
 		<div class="error"></div>
-	
 
 	<fieldset style="width: 80%;" >
 		<legend>New Subjects</legend>
@@ -155,7 +148,6 @@
 			</tr>
 		</table>
 		
-		
 		<div style="border: 1px;" id="newSubjectDiv">
 			<div style="width:90%;" id="subjectFieldSetDiv" align="center"></div>
 		</div>
@@ -163,7 +155,7 @@
 		
 		</div>
 
-	<div>&nbsp;<input type="submit" value="Save" /></div>
+		<div>&nbsp;<input type="submit" value="Save" /></div>
 	</fieldset>
 
 </form>

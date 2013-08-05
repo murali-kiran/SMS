@@ -2746,3 +2746,11 @@ button.btn.small, input[type="submit"].btn.small {
 .invisible {
   visibility: hidden;
 }
+
+.scrollboxY {
+  height:200px;
+  width:120px; 
+  overflow-y:scroll;
+  background-color:#86a6b2;
+  font-size: 12px;
+}

@@ -107,6 +107,25 @@ public class StaffDao {
 			throw re;
 		}
 	}
+	
+	
+	public Staff findStaffDetailsByProperties(String staffName,Date joiningDate,String IsTeachinfStaff) {
+		logger.info("getting Staff  with property: "+ staffName + ","+joiningDate+" , " + IsTeachinfStaff);
+		try {
+			final String queryString = "select model from Staff model where model.name = :staffName " +
+					"and model.joiningDate = :joiningDate and isTeachinfStaff = :isTeachinfStaff";
+
+			Query query = entityManager.createQuery(queryString,
+					Staff.class);
+			query.setParameter("staffName", staffName);
+			query.setParameter("joiningDate", joiningDate);
+			query.setParameter("isTeachinfStaff", IsTeachinfStaff);
+			return (Staff)query.getSingleResult();
+		} catch (RuntimeException re) {
+			logger.error("find by property name failed", re);
+			throw re;
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Staff> findAll(final int... rowStartIdxAndCount) {

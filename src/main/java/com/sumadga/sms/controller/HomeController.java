@@ -1,5 +1,6 @@
 package com.sumadga.sms.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.sumadga.sms.dto.Designations;
 import com.sumadga.sms.dto.StudentClass;
+import com.sumadga.sms.dto.Subject;
+import com.sumadga.sms.dto.TeachingStaffSubject;
 import com.sumadga.sms.model.ClassForm;
+import com.sumadga.sms.model.GenericBean;
 import com.sumadga.sms.reponses.GenericJsonResponse;
+import com.sumadga.sms.reponses.SubjectsOfTeacherResponse;
 import com.sumadga.sms.service.ClassesService;
 import com.sumadga.sms.service.HomeService;
 import com.sumadga.sms.utils.RequestUtil;
@@ -31,6 +37,7 @@ public class HomeController {
 	
 	@Autowired
 	private ValidationProperties properties;
+	
 	
 	@RequestMapping(value="/",method = RequestMethod.GET)
 	public String welcomePage(Model model){
@@ -143,6 +150,44 @@ public class HomeController {
 		return "createNewSubject";
 	}
 	
+	@RequestMapping(value="/showTeacherAndSubjectMapping",method = RequestMethod.GET)
+	public String showTeacherAndSubjectMapping(Model model){
+		
+		List<Subject> subjects = homeService.getAllSubjects();
+		List<GenericBean> teachers   = homeService.getTeachingStaff();
+		
+		model.addAttribute("teachers", teachers);
+		model.addAttribute("subjects",subjects);
+		
+		return "teacherAndSubjectMapping";
+	}
+	
+	
+	@RequestMapping(value="/getSubjectsOfTeacher",method = RequestMethod.GET)
+	public @ResponseBody SubjectsOfTeacherResponse getSubjectsOfTeacher(Model model,HttpServletRequest request){
+		
+		SubjectsOfTeacherResponse response = new SubjectsOfTeacherResponse();
+		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
+		
+		List<Integer> teachingStaffSubjectIds = homeService.getTeachingSubjects(Integer.parseInt(requestMap.get("teacherId")));
+		
+		response.setTeachingStaffSubjectIds(teachingStaffSubjectIds);
+		response.setStatus(true);
+		return response;
+	}
+	
+	
+	
+	@RequestMapping(value="/saveTeacherAndSubjectMapping",method = RequestMethod.POST)
+	public String saveTeacherAndSubjectMapping(Model model,HttpServletRequest request){
+		
+		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
+		homeService.saveSubjectsOfTeacher(requestMap);
+		
+		return "teacherAndSubjectMapping";
+	}
+	
+	
 /*	@RequestMapping(value = "/saveNewClass", method = RequestMethod.POST)
 	public String  saveStudentDetails(Model model,HttpServletRequest request)
 	{
@@ -167,9 +212,6 @@ public class HomeController {
 	
 	@RequestMapping(value="/saveClassDetails",method = RequestMethod.POST)
 	public String saveClassDetails(Model model,HttpServletRequest request){
-		
-		
-		
 		
 		return "classInfo";
 	}

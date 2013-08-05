@@ -17,7 +17,7 @@ public class TeachingStaff implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int teachingStaffId;
-
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdTime;
 
@@ -40,7 +40,7 @@ public class TeachingStaff implements Serializable {
 
 	//bi-directional one-to-one association to Staff
 	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="teachingStaffId")
+	@JoinColumn(name="staffId")
 	private Staff staff;
 
 	//bi-directional many-to-one association to TeachingStaffSubject

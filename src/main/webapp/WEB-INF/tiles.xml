@@ -86,8 +86,10 @@
 		<put-attribute name="title-content" value="Create Staff" />
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/createStaff.jsp" />
 	</definition>
-		
 	
-
+	<definition name="teacherAndSubjectMapping" extends="baseDefination">
+		<put-attribute name="title-content" value="Teacher Subjects Mapping" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/teacherSubjectsMapping.jsp" />
+	</definition>
 	
 </tiles-definitions>       

@@ -15,11 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sumadga.sms.dao.DesignationsDao;
 import com.sumadga.sms.dao.StaffDao;
 import com.sumadga.sms.dao.SubjectDao;
+import com.sumadga.sms.dao.TeachingStaffDao;
+import com.sumadga.sms.dao.TeachingStaffSubjectDao;
 import com.sumadga.sms.dto.Designations;
 import com.sumadga.sms.dto.Staff;
 import com.sumadga.sms.dto.Subject;
+import com.sumadga.sms.dto.TeachingStaff;
+import com.sumadga.sms.dto.TeachingStaffSubject;
+import com.sumadga.sms.model.GenericBean;
 import com.sumadga.sms.utils.CommonUtils;
-import com.sumadga.sms.utils.Utils;
 
 @Service
 public class HomeService {
@@ -30,12 +34,15 @@ public class HomeService {
 	private StaffDao staffDao;
 	@Autowired
 	private SubjectDao subjectDao;
+	@Autowired
+	private TeachingStaffDao teachingStaffDao;
+	@Autowired
+	private TeachingStaffSubjectDao teachingStaffSubjectDao;
 	
 	private static final Logger logger = Logger.getLogger(HomeService.class);
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
 	public boolean saveDesignations(Map<String, String> requestMap){
-		
 		
 		Designations designations = new Designations();
 		designations.setDesignation(requestMap.get("designationName"));
@@ -101,10 +108,9 @@ public class HomeService {
 		return designations;
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
 	public boolean saveEmpDetails(Map<String, String> requestMap) {
 		try {
-			
-		
 			Designations designation =	designationsDao.findById(Integer.parseInt(requestMap.get("designationType")));
 		
 			Staff staff = new Staff();
@@ -119,11 +125,91 @@ public class HomeService {
 			
 			staffDao.save(staff); 
 			
+			if(designation.getIsTeaching() == 1){
+				
+		    	staff =	staffDao.findStaffDetailsByProperties(staff.getName(),staff.getJoiningDate(),staff.getIsTeachinfStaff());
+				TeachingStaff teachingStaff = new TeachingStaff();
+				teachingStaff.setStaff(staff);
+				teachingStaffDao.save(teachingStaff);
+			}
+			
 		} catch (Exception e) {
-			logger.error("find failed", e);
+			logger.error("Find failed", e);
 			
 		}
 		
     		return false;
+	}
+	
+	public  List<Subject> getAllSubjects(){
+		try {
+		List<Subject> subjects =	subjectDao.findAll();
+		return subjects;
+		} catch (Exception e) {
+			logger.error("All subjects not retrived", e);
+			return null;
+		}
+	}
+	
+	public  List<GenericBean> getTeachingStaff(){
+		
+		try {
+		List<GenericBean> staffs = teachingStaffDao.findAllTeachingStaffByNativeQuery();
+		return staffs;
+		} catch (Exception e) {
+			logger.error("Teaching staff details are not retrived", e);
+			return null;
+		}
+	}
+	
+	public List<Integer> getTeachingSubjects(int teacherStaffId){
+		try {
+			TeachingStaff teachingStaff = new TeachingStaff();
+			teachingStaff.setTeachingStaffId(teacherStaffId);
+			
+		//	teachingStaff.setTeachingStaffId(teachingStaffId);
+			List<TeachingStaffSubject> teachingStaffSubjects = teachingStaffSubjectDao.findByProperty("teachingStaff",teachingStaff);
+			List<Integer> teachingStaffIds = new ArrayList<Integer>();
+			for(TeachingStaffSubject teachingStaffSubject : teachingStaffSubjects){
+				teachingStaffIds.add(teachingStaffSubject.getTeachingStaffSubjectId());
+			}
+			return teachingStaffIds;
+			
+			} catch (Exception e) {
+				logger.error("Teaching staff Subjects details are not retrived", e);
+				return null;
+			}
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
+	public Boolean saveSubjectsOfTeacher(Map<String, String> requestMap) {
+		try {
+			
+			// [null, null, null, teacherList=1, null, null, subject=1,2, null, null, null, null, null, null, null, null, null]
+			Integer teachingStaffId = Integer.parseInt(requestMap.get("teacherList"));
+			String [] subjectsId =  requestMap.get("subject").toString().split(",");
+			
+			for(String subjectId : subjectsId){
+				
+				TeachingStaff teachingStaff = new TeachingStaff();
+				teachingStaff.setTeachingStaffId(teachingStaffId);
+				
+				Subject subject = new Subject();
+				subject.setSubjectId(Integer.parseInt(subjectId));
+				
+				if(!teachingStaffSubjectDao.isSubjectAndTeacherAlreadyExist(teachingStaff,subject)){
+					TeachingStaffSubject teachingStaffSubject = new TeachingStaffSubject();
+					teachingStaffSubject.setSubject(subject);
+					teachingStaffSubject.setTeachingStaff(teachingStaff);
+					
+					teachingStaffSubjectDao.save(teachingStaffSubject);
+				}
+			}
+			
+			return true;
+		} catch (Exception e) {
+			logger.error("Teacher and Subjects Mappinh Failed", e);
+			return null;
+		}
 	}
 }

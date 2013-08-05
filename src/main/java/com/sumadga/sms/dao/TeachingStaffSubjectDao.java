@@ -1,5 +1,6 @@
 package com.sumadga.sms.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sumadga.sms.dto.Subject;
+import com.sumadga.sms.dto.TeachingStaff;
 import com.sumadga.sms.dto.TeachingStaffSubject;
 
 @Repository
@@ -26,6 +29,8 @@ public class TeachingStaffSubjectDao {
 	public void save(TeachingStaffSubject entity) {
 		logger.info("saving TeachingStaffSubject instance");
 		try {
+			entity.setCreatedTime(new Date());
+			entity.setModifiedTime(new Date());
 			entityManager.persist(entity);
 			logger.info("save successful");
 		} catch (RuntimeException re) {
@@ -127,6 +132,25 @@ public class TeachingStaffSubjectDao {
 			return query.getResultList();
 		} catch (RuntimeException re) {
 			logger.error("find all failed", re);
+			throw re;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean isSubjectAndTeacherAlreadyExist(TeachingStaff teachingStaff,Subject subject) {
+		logger.info("finding TeachingStaffSubject instance with property: teachingStaffId ,property: teachingStaffId , property: subjectId" );
+		try {
+			final String queryString = "select model from TeachingStaffSubject model where model.teachingStaff= :teachingStaff and model.subject= :subject";
+
+			Query query = entityManager.createQuery(queryString,TeachingStaffSubject.class);
+			query.setParameter("teachingStaff", teachingStaff);
+			query.setParameter("subject", subject);
+			
+			List<TeachingStaffSubject> teachingStaffSubjects = query.getResultList();
+			
+			return (teachingStaffSubjects.size() > 0);
+		} catch (RuntimeException re) {
+			logger.error("find by property name failed", re);
 			throw re;
 		}
 	}

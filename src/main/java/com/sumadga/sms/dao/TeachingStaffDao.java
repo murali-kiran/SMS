@@ -1,5 +1,7 @@
 package com.sumadga.sms.dao;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sumadga.sms.dto.TeachingStaff;
+import com.sumadga.sms.model.GenericBean;
 
 @Repository
 public class TeachingStaffDao {
@@ -26,6 +29,8 @@ public class TeachingStaffDao {
 	public void save(TeachingStaff entity) {
 		logger.info("saving TeachingStaff instance");
 		try {
+			entity.setCreatedTime(new Date());
+			entity.setModifiedTime(new Date());
 			entityManager.persist(entity);
 			logger.info("save successful");
 		} catch (RuntimeException re) {
@@ -62,6 +67,7 @@ public class TeachingStaffDao {
 	}
 
 	public TeachingStaff findById(Long id) {
+		
 		logger.info("finding TeachingStaff instance with id: " + id);
 		try {
 			TeachingStaff instance = entityManager.find(TeachingStaff.class, id);
@@ -130,4 +136,27 @@ public class TeachingStaffDao {
 			throw re;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GenericBean> findAllTeachingStaffByNativeQuery() {
+		logger.info("finding all TeachingStaff instances");
+		try {
+			final String queryString = "SELECT t.staffId as id,s.name as name FROM TeachingStaff  t join Staff s on t.staffId = s.staffId";
+			Query query = entityManager.createNativeQuery(queryString);
+			List<Object[]> list = query.getResultList();
+			List<GenericBean> genericBeans = new ArrayList<GenericBean>();
+			for(Object[] obj : list){
+				GenericBean bean = new GenericBean();
+				bean.setId((Integer)obj[0]);
+				bean.setName((String)obj[1]);
+				genericBeans.add(bean);
+			}
+			return genericBeans;
+		} catch (RuntimeException re) {
+			logger.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	
 }
