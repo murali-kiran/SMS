@@ -29,12 +29,12 @@ public class AcademicStudent implements Serializable {
 	private int rollnumber;
 
 	//bi-directional many-to-one association to MainTable
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="mainTableId")
 	private MainTable mainTable;
 
 	//bi-directional many-to-one association to Student
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="studentId")
 	private Student student;
 

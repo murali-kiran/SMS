@@ -28,8 +28,6 @@
   
  function getSubjectsOfTeacher(){
 	 var teachingStaffId = $("select[name='teacherList'] :selected").val();
-	 alert("teachingStaffId : "+teachingStaffId);
-	 
 	 try {
 		
 	// {"teachingStaffSubjectIds":[1],"status":true}
@@ -37,11 +35,29 @@
 	 if($.trim(teachingStaffId) !=  ''){
 	  $.getJSON( "${pageContext.servletContext.contextPath}/getSubjectsOfTeacher", { teacherId : $("select[name='teacherList'] :selected").val()},function(json) {
 		  
+		  $("input[type='checkbox'][name='subject']").each(function(){
+			  
+			  var isExist = false;
+			  var subjectId = $(this).val();
+			 
 			  for(var i=0;i< json.teachingStaffSubjectIds.length;i++){
-				  alert("teachingStaffId : "+json.teachingStaffSubjectIds[i]);
+				  
+				  if( subjectId == json.teachingStaffSubjectIds[i]){
 				  $("input[type='checkbox'][name='subject'][value='"+json.teachingStaffSubjectIds[i]+"']").prop('checked', true);
+				  isExist = true;
+				  break;
+				  }
 			  }
+			  
+			  if(!isExist){
+				  $("input[type='checkbox'][name='subject'][value='"+subjectId+"']").prop('checked', false);
+			  }
+		  });
 	  });
+	 }else{
+		 $("input[type='checkbox'][name='subject']").each(function(){
+			 $(this).prop('checked',false);
+		 });
 	 }
 	 
 	 } catch (e) {

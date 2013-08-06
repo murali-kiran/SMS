@@ -31,7 +31,7 @@ public class ExamTimeTable implements Serializable {
 	private String examTimeTableId;
 
 	//bi-directional many-to-one association to Class
-		@ManyToOne(fetch=FetchType.LAZY)
+		@ManyToOne(fetch=FetchType.EAGER)
 		@JoinColumn(name="classId")
 		private StudentClass studentClass;
 
@@ -58,7 +58,7 @@ public class ExamTimeTable implements Serializable {
 	private List<ExamResult> examResults;
 
 	//bi-directional many-to-one association to ExamType
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="examTypeId")
 	private ExamType examType;
 

@@ -35,12 +35,12 @@ public class MainTable implements Serializable {
 	private List<AcademicStudent> academicStudents;
 
 	//bi-directional many-to-one association to ClassSection
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="classSectionId")
 	private ClassSection classSection;
 
 	//bi-directional many-to-one association to TeachingStaff
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="classTeacherId")
 	private TeachingStaff teachingStaff;
 

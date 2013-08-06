@@ -30,27 +30,27 @@ public class SubjectTimeTable implements Serializable {
 	private int weekDay;
 
 	//bi-directional many-to-one association to Location
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="locationId")
 	private Location location;
 
 	//bi-directional many-to-one association to MainTable
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="mainTableId")
 	private MainTable mainTable;
 
 	//bi-directional many-to-one association to Subject
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="subjectId")
 	private Subject subject;
 
 	//bi-directional many-to-one association to TeachingStaff
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="teacherId")
 	private TeachingStaff teachingStaff1;
 
 	//bi-directional many-to-one association to TeachingStaff
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="alterNateTeacherId")
 	private TeachingStaff teachingStaff2;
 

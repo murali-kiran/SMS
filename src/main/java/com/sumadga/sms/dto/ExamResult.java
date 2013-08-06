@@ -28,12 +28,12 @@ public class ExamResult implements Serializable {
 	private Timestamp modifiedTime;
 
 	//bi-directional many-to-one association to Class
-		@ManyToOne(fetch=FetchType.LAZY)
+		@ManyToOne(fetch=FetchType.EAGER)
 		@JoinColumn(name="studentId")
 		private Student student;
 
 	//bi-directional many-to-one association to ExamTimeTable
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="examTimeTableId")
 	private ExamTimeTable examTimeTable;
 

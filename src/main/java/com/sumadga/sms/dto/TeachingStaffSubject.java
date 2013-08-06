@@ -25,12 +25,12 @@ public class TeachingStaffSubject implements Serializable {
 	private Date modifiedTime;
 
 	//bi-directional many-to-one association to Subject
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="subjectId")
 	private Subject subject;
 
 	//bi-directional many-to-one association to TeachingStaff
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="teachingStaffId")
 	private TeachingStaff teachingStaff;
 

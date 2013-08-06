@@ -37,12 +37,12 @@ public class ClassSection implements Serializable {
 	private Date modifiedTime;
 
 	//bi-directional many-to-one association to Class
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="classId")
 	private StudentClass studentClass;
 
 	//bi-directional many-to-one association to Section
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="sectionId")
 	private Section section;
 

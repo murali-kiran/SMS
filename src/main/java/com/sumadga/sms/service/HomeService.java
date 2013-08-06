@@ -171,7 +171,7 @@ public class HomeService {
 			List<TeachingStaffSubject> teachingStaffSubjects = teachingStaffSubjectDao.findByProperty("teachingStaff",teachingStaff);
 			List<Integer> teachingStaffIds = new ArrayList<Integer>();
 			for(TeachingStaffSubject teachingStaffSubject : teachingStaffSubjects){
-				teachingStaffIds.add(teachingStaffSubject.getTeachingStaffSubjectId());
+				teachingStaffIds.add(teachingStaffSubject.getSubject().getSubjectId());
 			}
 			return teachingStaffIds;
 			

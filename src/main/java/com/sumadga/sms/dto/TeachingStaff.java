@@ -39,7 +39,7 @@ public class TeachingStaff implements Serializable {
 	private List<SubjectTimeTable> subjectTimeTables2;
 
 	//bi-directional one-to-one association to Staff
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="staffId")
 	private Staff staff;
 

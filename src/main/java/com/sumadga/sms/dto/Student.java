@@ -46,12 +46,12 @@ public class Student implements Serializable {
 	private List<AcademicStudent> academicStudents;
 
 	//bi-directional many-to-one association to Address
-	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name="addressId")
 	private Address address;
 
 	//bi-directional many-to-one association to Parent
-	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name="parentId")
 	private Parent parent;
 

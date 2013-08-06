@@ -36,7 +36,7 @@ public class Parent implements Serializable {
 	private String motherName;
 
 	//bi-directional many-to-one association to Address
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="addressId")
 	private Address address;
 

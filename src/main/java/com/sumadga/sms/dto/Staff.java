@@ -38,7 +38,7 @@ public class Staff implements Serializable {
 	
 
 	//bi-directional one-to-one association to TeachingStaff
-	@OneToOne(mappedBy="staff", fetch=FetchType.LAZY)
+	@OneToOne(mappedBy="staff", fetch=FetchType.EAGER)
 	private TeachingStaff teachingStaff;
 
 	public Staff() {
