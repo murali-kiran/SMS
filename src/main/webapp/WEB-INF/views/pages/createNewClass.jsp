@@ -41,6 +41,12 @@
 	    	  $('.error').text("* More than one Class Name has same value");	
 	    	  status = false;
 	    	  }else{
+	    		  
+	    		  $.ajaxSetup({
+	            	  async: false
+	               });
+	    		  
+	    		  
 				  $.getJSON("${pageContext.servletContext.contextPath}/alreadyClassExist", {classNames:classNameStr},function(json) {
 					  if(json.status){
 						  alert("message : "+json.message);

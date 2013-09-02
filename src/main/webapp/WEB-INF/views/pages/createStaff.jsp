@@ -13,6 +13,12 @@
   function formValidation(){
 	  var status ;
 	  try {
+		  
+		  
+		  $.ajaxSetup({
+        	  async: false
+           });
+		  
 		  $.getJSON( "${pageContext.servletContext.contextPath}/alreadyDesignationExist", { designationName : $('#designationName').val(), designationType : $("select[name='designationType'] :selected").val() },function(json) {
 		  if(json.status){
 			  alert("message : "+json.message);

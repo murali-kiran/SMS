@@ -67,7 +67,6 @@ $(function(){
 		  
 // {"examTypeId","classclassId","subjectId","teachingStaffId","examDate","examStartTime","examEndTime","maximumMarks"};
 
-          alert("I am in form validation");
           
           $.ajaxSetup({
         	  async: false

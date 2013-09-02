@@ -7,6 +7,10 @@
 	  
 	  var status ;
 	  try {
+		  
+		  $.ajaxSetup({
+        	  async: false
+           });
 		
 	  $.getJSON( "${pageContext.servletContext.contextPath}/alreadyDesignationExist", { designationName : $('#designationName').val(), designationType : $("select[name='designationType'] :selected").val() },function(json) {
 		  if(json.status){
@@ -33,6 +37,11 @@
 	// {"teachingStaffSubjectIds":[1],"status":true}
 	 
 	 if($.trim(teachingStaffId) !=  ''){
+		 
+		 $.ajaxSetup({
+       	  async: false
+          });
+		 
 	  $.getJSON( "${pageContext.servletContext.contextPath}/getSubjectsOfTeacher", { teacherId : $("select[name='teacherList'] :selected").val()},function(json) {
 		  
 		  $("input[type='checkbox'][name='subject']").each(function(){

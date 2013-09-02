@@ -8,8 +8,6 @@ $(function(){
 
 	try {
 		
-	alert("sravan");
-
 jQuery("#list").jqGrid({
 		url : '${pageContext.request.contextPath}/getExamTimeTableData',
 		datatype: "json",

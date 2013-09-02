@@ -97,9 +97,13 @@
 						subjectStr=subjectStr+","+$inputs.eq(i).val();
 					}
 				}
+				
+				  $.ajaxSetup({
+		        	  async: false
+		           });
+				
 				  $.getJSON("${pageContext.servletContext.contextPath}/alreadySubjectExist", { subjectsCount : $('#subjectCount').val(),subjects:subjectStr},function(json) {
 					  if(json.status){
-						  alert("message : "+json.message);
 						  $('.error').text(json.message);
 						  status = false;
 						  }
@@ -108,7 +112,6 @@
 						  }
 				  });
 			}
-			alert(status);
 			return status;
 		  
 	  }
