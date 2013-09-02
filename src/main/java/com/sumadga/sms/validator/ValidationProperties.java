@@ -62,6 +62,22 @@ public class ValidationProperties {
 	@Value("${subjectAlreadyExist}") 
 	private  String subjectAlreadyExist;
 	
+	@Value("${examTypeAlreadyExist}")
+	private String examTypeAlreadyExist;
+	
+	@Value("${examTypeSaveSuccess}")
+	private String examTypeSaveSuccess;
+	
+	@Value("${examTimeTableExist}")
+	private String examTimeTableExist;
+	
+	
+	public String getExamTimeTableExist() {
+		return examTimeTableExist;
+	}
+	public void setExamTimeTableExist(String examTimeTableExist) {
+		this.examTimeTableExist = examTimeTableExist;
+	}
 	public String getName() {
 		return name;
 	}
@@ -176,5 +192,18 @@ public class ValidationProperties {
 	public void setSubjectAlreadyExist(String subjectAlreadyExist) {
 		this.subjectAlreadyExist = subjectAlreadyExist;
 	}
+	public String getExamTypeAlreadyExist() {
+		return examTypeAlreadyExist;
+	}
+	public void setExamTypeAlreadyExist(String examTypeAlreadyExist) {
+		this.examTypeAlreadyExist = examTypeAlreadyExist;
+	}
+	public String getExamTypeSaveSuccess() {
+		return examTypeSaveSuccess;
+	}
+	public void setExamTypeSaveSuccess(String examTypeSaveSuccess) {
+		this.examTypeSaveSuccess = examTypeSaveSuccess;
+	}
+	
 	
 }

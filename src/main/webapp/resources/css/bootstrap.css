@@ -110,7 +110,7 @@ body {
   font-size: 13px;
   line-height: 18px;
   color: #333333;
-  background-color: #ffffff;
+ /*  background-color: #ffffff; */
 }
 a {
   color: #0088cc;
@@ -552,7 +552,8 @@ pre code {
 .label-info:hover {
   background-color: #2d6987;
 }
-table {
+
+/** table {
   max-width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
@@ -686,6 +687,9 @@ table .span12 {
   width: 924px;
   margin-left: 0;
 }
+
+*/
+
 form {
   margin: 0 0 18px;
 }

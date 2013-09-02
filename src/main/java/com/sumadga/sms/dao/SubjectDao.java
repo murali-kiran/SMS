@@ -59,6 +59,7 @@ public class SubjectDao {
 			logger.info("update successful");
 			return result;
 		} catch (RuntimeException re) {
+			re.printStackTrace();
 			logger.error("update failed", re);
 			throw re;
 		}

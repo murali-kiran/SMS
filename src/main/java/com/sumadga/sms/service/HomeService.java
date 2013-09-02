@@ -13,16 +13,24 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sumadga.sms.dao.DesignationsDao;
+import com.sumadga.sms.dao.ExamTimeTableDao;
+import com.sumadga.sms.dao.ExamTypeDao;
 import com.sumadga.sms.dao.StaffDao;
+import com.sumadga.sms.dao.StudentClassDao;
 import com.sumadga.sms.dao.SubjectDao;
 import com.sumadga.sms.dao.TeachingStaffDao;
 import com.sumadga.sms.dao.TeachingStaffSubjectDao;
 import com.sumadga.sms.dto.Designations;
+import com.sumadga.sms.dto.ExamTimeTable;
+import com.sumadga.sms.dto.ExamType;
 import com.sumadga.sms.dto.Staff;
+import com.sumadga.sms.dto.StudentClass;
 import com.sumadga.sms.dto.Subject;
 import com.sumadga.sms.dto.TeachingStaff;
 import com.sumadga.sms.dto.TeachingStaffSubject;
+import com.sumadga.sms.model.ExamTimeTableData;
 import com.sumadga.sms.model.GenericBean;
+import com.sumadga.sms.model.JqGridInfo;
 import com.sumadga.sms.utils.CommonUtils;
 
 @Service
@@ -38,6 +46,12 @@ public class HomeService {
 	private TeachingStaffDao teachingStaffDao;
 	@Autowired
 	private TeachingStaffSubjectDao teachingStaffSubjectDao;
+	@Autowired
+	private ExamTypeDao examTypeDao;
+	@Autowired
+	private StudentClassDao studentClassDao;
+	@Autowired
+	private ExamTimeTableDao examTimeTableDao;
 	
 	private static final Logger logger = Logger.getLogger(HomeService.class);
 	
@@ -92,7 +106,43 @@ public class HomeService {
 		
 		return isSubjectAlreadyExist;
 	}
+	
+	public boolean  isAlreadyExamTypeExist(Map<String, String> requestMap){
 		
+		String examNameStr = requestMap.get("examNames").trim();
+		
+		String [] examNames = examNameStr.split(",");
+		boolean isExamTypeAlreadyExist = false;
+		
+		for(String examName : examNames){
+			List<ExamType> examNameList = examTypeDao.findByProperty("examTypeName",examName);
+			if(examNameList.size() > 0){
+				isExamTypeAlreadyExist = true;
+				break;
+			}
+		}
+		
+		return isExamTypeAlreadyExist;
+	}
+	
+	
+public boolean  isAlreadyClassExist(Map<String, String> requestMap){
+		
+		String classNameStr = requestMap.get("classNames").trim();
+		
+		String [] classNames = classNameStr.split(",");
+		boolean isClassAlreadyExist = false;
+		
+		for(String className : classNames){
+			List<StudentClass> classList = studentClassDao.findByProperty("className",className);
+			if(classList.size() > 0){
+				isClassAlreadyExist = true;
+				break;
+			}
+		}
+		
+		return isClassAlreadyExist;
+	}	
 	
 	public boolean  isAlreadySubjectExist(Map<String, String> requestMap){
 		List<Designations> designations = designationsDao.isDesignationExist(requestMap.get("designationName"),Byte.parseByte(requestMap.get("designationType")));
@@ -212,4 +262,150 @@ public class HomeService {
 			return null;
 		}
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
+	public boolean saveExamTypes(Map<String, String> requestMap){
+		
+		String [] examTypeNames = requestMap.get("examType").split(",");
+		try {
+	
+		for(String examTypeName : examTypeNames){
+			ExamType examType = new ExamType();
+			examType.setExamTypeName(examTypeName.toLowerCase());
+			examTypeDao.save(examType);
+		}
+		
+		return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
+		
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
+	public boolean saveClassInfo(Map<String, String> requestMap){
+		
+		String [] classNames = requestMap.get("className").split(",");
+		try {
+	
+		for(String className : classNames){
+			StudentClass studentClass = new StudentClass();
+			studentClass.setClassName(className.toLowerCase());
+			studentClassDao.save(studentClass);
+		}
+		
+		return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
+	}
+
+	public List<StudentClass> getAllClasses() {
+		List<StudentClass> studentClasses =	studentClassDao.findAll();
+		return studentClasses;
+	}
+
+	public void saveExamTimeTable(Map<String, String> requestMap) {
+		
+	String classId    =	requestMap.get("classList");
+	String subjectId  =	requestMap.get("subjectList");
+	String teacherId  =	requestMap.get("teacherList");
+	String doe        =	requestMap.get("dateOfExam");
+	String startTime  =	requestMap.get("startTime");
+	String endTime    =	requestMap.get("endTime");
+	String examTypeId =	requestMap.get("examTypeList");
+	int  marks      = Integer.parseInt(requestMap.get("maxMarks"));
+	
+	
+    ExamTimeTable examTimeTable = new ExamTimeTable();
+    examTimeTable.setExamStartTime(CommonUtils.StringToTime(startTime));
+    examTimeTable.setExamEndTime(CommonUtils.StringToTime(endTime));
+    
+    StudentClass studentClass = new StudentClass();
+    studentClass.setClassId(Integer.parseInt(classId));
+    examTimeTable.setStudentClass(studentClass);
+    
+    examTimeTable.setTeachingStaffId(Integer.parseInt(teacherId));
+    
+    examTimeTable.setExamDate(CommonUtils.getStringToDate(doe));
+    
+    Subject subject = new Subject();
+    subject.setSubjectId(Integer.parseInt(subjectId));
+    examTimeTable.setSubject(subject);
+    
+    ExamType examType = new ExamType();
+    examType.setExamTypeId(Integer.parseInt(examTypeId));
+    examTimeTable.setExamType(examType);
+    examTimeTable.setMaximumMarks(marks);
+    
+    examTimeTableDao.save(examTimeTable);
+    
+    
+	}
+
+	public List<ExamType> getAllExamTypes() {
+		List<ExamType> examTypes =	examTypeDao.findAll();
+		return examTypes;
+	}
+
+	public List<ExamTimeTable> getExamTimeTable() {
+		List<ExamTimeTable> examTimeTables = examTimeTableDao.findAll();
+		return examTimeTables;
+	}
+
+	public JqGridInfo<ExamTimeTableData> getJqGridDataForExamTimeTable() {
+		
+		int totalNumberOfPages = 1;
+	    int currentPageNumber = 1;
+	    
+	    List<ExamTimeTable> examTimeTables  = examTimeTableDao.findAll();
+	    int totalNumberOfRecords = examTimeTables.size();
+		
+		List<ExamTimeTableData> rows = new ArrayList<ExamTimeTableData>();
+		
+		if(examTimeTables!=null && examTimeTables.size() > 0){
+			for(ExamTimeTable examTimeTable : examTimeTables){
+				
+				StudentClass studentClass    =   examTimeTable.getStudentClass();
+				ExamType     examType        =   examTimeTable.getExamType();
+				Date         examDate        =   examTimeTable.getExamDate();
+				String       startTime       =   CommonUtils.convertTime_ToSpecific_TimeFormat(examTimeTable.getExamStartTime(),"hh:mm a");
+				String       endTime         =   CommonUtils.convertTime_ToSpecific_TimeFormat(examTimeTable.getExamEndTime(),"hh:mm a");
+				Integer      maxMarks        =   examTimeTable.getMaximumMarks();
+				
+				Subject subject   = examTimeTable.getSubject();
+				
+				ExamTimeTableData tableData = new ExamTimeTableData();
+				
+				tableData.setClassName(studentClass.getClassName());
+				tableData.setSubjectName(subject.getSubjectName());
+				tableData.setTotal(maxMarks.toString());
+				tableData.setStartTime(startTime);
+				tableData.setEndTime(endTime);
+				tableData.setExamType(examType.getExamTypeName());
+				tableData.setExamDate(CommonUtils.convertDate_ToSpecific_DateFormat(examDate,"dd-MMM-yyyy"));
+				
+				rows.add(tableData);
+			}
+		}
+		
+		JqGridInfo<ExamTimeTableData> jqGridInfo = new JqGridInfo<ExamTimeTableData>(totalNumberOfPages, currentPageNumber, totalNumberOfRecords, rows);
+		
+		System.out.println(jqGridInfo.getJsonString());
+		
+		return jqGridInfo;
+	}
+
+	public boolean isAlreadyExamTimeTableExist(Map<String, String> requestMap) {
+		
+	List<Integer> recordCounts  = examTimeTableDao.findByProperties(requestMap);
+	if(recordCounts.size() > 0){
+		logger.info("Same Exam Time entry already exist ");
+		return true;
+	}
+		return false;
+	}
+	
 }

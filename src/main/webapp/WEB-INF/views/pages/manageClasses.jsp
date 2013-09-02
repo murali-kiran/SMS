@@ -150,8 +150,7 @@ function getSubjects(section){
 							<td><c:out value="${class.className}" /></td>
 							<td><c:out value="${class.sectionCount}" /></td>
 							<td><c:url value="${class.subjectCount}" /></td>
-							<td><input type="button" value="update"
-								id="${class.classId}" /></td>
+							<td><input type="button" value="update" id="${class.classId}" /></td>
 						</tr>
 					</c:forEach>
 				</c:otherwise>
@@ -212,6 +211,7 @@ function getSubjects(section){
 					</td>
 				</tr>
 			</table> -->
+			
 			<div style="border: 1px;" id="newClassDiv">
 			<div style="width:50%;float: left" id="sectionFieldSetDiv"></div>
 			<div style="width:50%;float: left;" id="subjectFieldSetDiv"></div>

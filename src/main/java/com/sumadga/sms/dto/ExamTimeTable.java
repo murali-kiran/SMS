@@ -31,9 +31,9 @@ public class ExamTimeTable implements Serializable {
 	private String examTimeTableId;
 
 	//bi-directional many-to-one association to Class
-		@ManyToOne(fetch=FetchType.EAGER)
-		@JoinColumn(name="classId")
-		private StudentClass studentClass;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="classId")
+	private StudentClass studentClass;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdTime;
@@ -47,9 +47,15 @@ public class ExamTimeTable implements Serializable {
 
 	private int maximumMarks;
 
-	private Timestamp modifiedTime;
-
-	private int subjectId;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedTime;
+	
+	//bi-directional many-to-one association to Class
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="subjectId")
+	private Subject subject;
+		
+	
 
 	private int teachingStaffId;
 
@@ -72,9 +78,7 @@ public class ExamTimeTable implements Serializable {
 	public void setExamTimeTableId(String examTimeTableId) {
 		this.examTimeTableId = examTimeTableId;
 	}
-
 	
-
 	public StudentClass getStudentClass() {
 		return studentClass;
 	}
@@ -123,20 +127,18 @@ public class ExamTimeTable implements Serializable {
 		this.maximumMarks = maximumMarks;
 	}
 
-	public Timestamp getModifiedTime() {
-		return this.modifiedTime;
+	
+
+	public Date getModifiedTime() {
+		return modifiedTime;
+	}
+
+	public void setModifiedTime(Date modifiedTime) {
+		this.modifiedTime = modifiedTime;
 	}
 
 	public void setModifiedTime(Timestamp modifiedTime) {
 		this.modifiedTime = modifiedTime;
-	}
-
-	public int getSubjectId() {
-		return this.subjectId;
-	}
-
-	public void setSubjectId(int subjectId) {
-		this.subjectId = subjectId;
 	}
 
 	public int getTeachingStaffId() {
@@ -162,5 +164,15 @@ public class ExamTimeTable implements Serializable {
 	public void setExamType(ExamType examType) {
 		this.examType = examType;
 	}
+
+	public Subject getSubject() {
+		return subject;
+	}
+
+	public void setSubject(Subject subject) {
+		this.subject = subject;
+	}
+	
+	
 
 }

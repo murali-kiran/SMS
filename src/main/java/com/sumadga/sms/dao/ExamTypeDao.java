@@ -1,5 +1,7 @@
 package com.sumadga.sms.dao;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -26,6 +28,8 @@ public class ExamTypeDao {
 	public void save(ExamType entity) {
 		logger.info("saving ExamType instance");
 		try {
+			entity.setCreatedTime(new Date());
+			entity.setModifiedTime(new Date());
 			entityManager.persist(entity);
 			logger.info("save successful");
 		} catch (RuntimeException re) {

@@ -12,7 +12,11 @@
 	</tr>
 	
 	<tr height="30px;">
-		<td><a href="${pageContext.servletContext.contextPath}/createNewClass">New Class</a></td>
+		<td><a href="${pageContext.servletContext.contextPath}/createNewClass">NewClass(no use)</a></td>
+	</tr>
+	
+	<tr height="30px;">
+		<td><a href="${pageContext.servletContext.contextPath}/showNewClass">New Class</a></td>
 	</tr>
 	
 	<tr height="30px;">
@@ -29,6 +33,18 @@
 	
 	<tr height="30px;">
 		<td><a href="${pageContext.servletContext.contextPath}/showTeacherAndSubjectMapping">Teacher And SubjectsMapping</a></td>
+	</tr>
+	
+	<tr height="30px;">
+		<td><a href="${pageContext.servletContext.contextPath}/createExamType">Add Exams Type</a></td>
+	</tr>
+ 
+	<tr height="30px;">
+		<td><a href="${pageContext.servletContext.contextPath}/createExamTimeTable">Add Exam TimeTable</a></td>
+	</tr>
+	
+	<tr height="30px;">
+		<td><a href="${pageContext.servletContext.contextPath}/showExamTimeTable">Show Exam TimeTable</a></td>
 	</tr>
 	
 </table>

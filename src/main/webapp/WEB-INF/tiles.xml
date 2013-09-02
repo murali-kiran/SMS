@@ -92,4 +92,24 @@
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/teacherSubjectsMapping.jsp" />
 	</definition>
 	
+	<definition name="createExamType" extends="baseDefination">
+		<put-attribute name="title-content" value="Create Exam Type" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/createExamType.jsp" />
+	</definition>
+	
+	<definition name="showNewClass" extends="baseDefination">
+		<put-attribute name="title-content" value="Create Class" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/createNewClass.jsp" />
+	</definition>
+	
+	<definition name="createExamTimeTable" extends="baseDefination">
+		<put-attribute name="title-content" value="Exam Time Table" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/createExamTimeTable.jsp" />
+	</definition>
+	
+	<definition name="showExamTimeTable" extends="baseDefination">
+		<put-attribute name="title-content" value="Exam Time Table" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/showExamTimeTable.jsp" />
+	</definition>
+	
 </tiles-definitions>       

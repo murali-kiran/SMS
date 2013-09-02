@@ -6,7 +6,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.sumadga.sms.model.StudentForm;
-import com.sumadga.sms.utils.Utils;
+import com.sumadga.sms.utils.CommonUtils;
 
 @Component
 public class StudentDetailsSaveValidator extends GenericValidations implements Validator{
@@ -28,26 +28,25 @@ public class StudentDetailsSaveValidator extends GenericValidations implements V
 
 		StudentForm studentForm = (StudentForm)target;
 
-		if(Utils.isEmpty(studentForm.getName())){
+		if(CommonUtils.isEmpty(studentForm.getName())){
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"name","name", "* Name is required");
 		}
 
-		if(Utils.isEmpty(studentForm.getSurName())){
+		if(CommonUtils.isEmpty(studentForm.getSurName())){
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"surName","surName", "* Surname is required");
 		}
 
-		if(Utils.isEmpty(studentForm.getDateOfBirth())){
+		if(CommonUtils.isEmpty(studentForm.getDateOfBirth())){
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"dateOfBirth","dateOfBirth", "* Dob is required");
 		}
 
-		if(Utils.isEmpty(studentForm.getIsPhysicallyChallenged()+"")){
+		if(CommonUtils.isEmpty(studentForm.getIsPhysicallyChallenged()+"")){
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"isPhysicallyChallenged","isPhysicallyChallenged", "* PhysicallyChallenged is required");
 		}
 
-		if(Utils.isEmpty(studentForm.getDescription())){
+		if(CommonUtils.isEmpty(studentForm.getDescription())){
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors,"description","description", "* Description is required");
 		}
-
 
 	}
 

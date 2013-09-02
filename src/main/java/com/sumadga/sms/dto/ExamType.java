@@ -25,7 +25,8 @@ public class ExamType implements Serializable {
 
 	private String examTypeName;
 
-	private Timestamp modifiedTime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedTime;
 
 	//bi-directional many-to-one association to ExamTimeTable
 	@OneToMany(mappedBy="examType")
@@ -58,11 +59,12 @@ public class ExamType implements Serializable {
 		this.examTypeName = examTypeName;
 	}
 
-	public Timestamp getModifiedTime() {
-		return this.modifiedTime;
+
+	public Date getModifiedTime() {
+		return modifiedTime;
 	}
 
-	public void setModifiedTime(Timestamp modifiedTime) {
+	public void setModifiedTime(Date modifiedTime) {
 		this.modifiedTime = modifiedTime;
 	}
 

@@ -1,6 +1,5 @@
 package com.sumadga.sms.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,12 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sumadga.sms.dao.SubjectDao;
 import com.sumadga.sms.dto.Designations;
+import com.sumadga.sms.dto.ExamType;
 import com.sumadga.sms.dto.StudentClass;
 import com.sumadga.sms.dto.Subject;
-import com.sumadga.sms.dto.TeachingStaffSubject;
 import com.sumadga.sms.model.ClassForm;
+import com.sumadga.sms.model.ExamTimeTableData;
+import com.sumadga.sms.model.ExamTimeTableGrid;
 import com.sumadga.sms.model.GenericBean;
+import com.sumadga.sms.model.JqGridInfo;
 import com.sumadga.sms.reponses.GenericJsonResponse;
 import com.sumadga.sms.reponses.SubjectsOfTeacherResponse;
 import com.sumadga.sms.service.ClassesService;
@@ -37,6 +40,9 @@ public class HomeController {
 	
 	@Autowired
 	private ValidationProperties properties;
+	
+	@Autowired
+	private SubjectDao  subjectDao;
 	
 	
 	@RequestMapping(value="/",method = RequestMethod.GET)
@@ -214,6 +220,135 @@ public class HomeController {
 	public String saveClassDetails(Model model,HttpServletRequest request){
 		
 		return "classInfo";
+	}
+	
+	// Exam Type
+	@RequestMapping(value="/createExamType",method = RequestMethod.GET)
+	public String createExamType(Model model){
+		return "createExamType";
+	}
+	
+	@RequestMapping(value="/saveExamType",method = RequestMethod.POST)
+	public String saveExamType(Model model,HttpServletRequest request){
+		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
+		if(homeService.saveExamTypes(requestMap)){
+			model.addAttribute("successMsg", properties.getExamTypeSaveSuccess());
+		}
+		return "createExamType";
+	}
+	
+	@RequestMapping(value="/alreadyExamTypeExist",method = RequestMethod.GET)
+	public @ResponseBody GenericJsonResponse alreadyExamTypeExist(Model model,HttpServletRequest request){
+		
+		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
+		GenericJsonResponse response = new GenericJsonResponse();
+		if(homeService.isAlreadyExamTypeExist(requestMap)){
+			response.setStatus(true);
+			response.setMessage(properties.getExamTypeAlreadyExist());
+		}else{
+			response.setStatus(false);
+		}
+		
+		return response;
+	}
+	
+	// New Class
+	
+	@RequestMapping(value="/showNewClass",method = RequestMethod.GET)
+	public String showNewClass(Model model){
+		return "showNewClass";
+	}
+	
+	@RequestMapping(value="/saveClassInfo",method = RequestMethod.POST)
+	public String saveClassInfo(Model model,HttpServletRequest request){
+		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
+		if(homeService.saveClassInfo(requestMap)){
+			model.addAttribute("successMsg", properties.getExamTypeSaveSuccess());
+		}
+		return "createExamType";
+	}
+	
+	@RequestMapping(value="/alreadyClassExist",method = RequestMethod.GET)
+	public @ResponseBody GenericJsonResponse alreadyClassExist(Model model,HttpServletRequest request){
+		
+		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
+		GenericJsonResponse response = new GenericJsonResponse();
+		if(homeService.isAlreadyClassExist(requestMap)){
+			response.setStatus(true);
+			response.setMessage(properties.getExamTypeAlreadyExist());
+		}else{
+			response.setStatus(false);
+		}
+		
+		return response;
+	}
+	
+	
+	// ExamTimeTable
+	@RequestMapping(value="/createExamTimeTable",method = RequestMethod.GET)
+	public String createExamTimeTable(Model model){
+		
+		List<Subject> subjects = homeService.getAllSubjects();
+		List<GenericBean> teachers   = homeService.getTeachingStaff();
+		List<StudentClass> studentClasses = homeService.getAllClasses();
+		List<ExamType> examTypes = homeService.getAllExamTypes();
+		
+		model.addAttribute("examTypes", examTypes);
+		model.addAttribute("teachers", teachers);
+		model.addAttribute("subjects",subjects);
+		model.addAttribute("classes", studentClasses);
+		
+		return "createExamTimeTable";
+	}
+	
+	@RequestMapping(value="/alreadyExamTimeTableExist",method = RequestMethod.GET)
+	public @ResponseBody GenericJsonResponse alreadyExamTimeTableExist(Model model,HttpServletRequest request){
+		
+		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
+		GenericJsonResponse response = new GenericJsonResponse();
+		if(homeService.isAlreadyExamTimeTableExist(requestMap)){
+			response.setStatus(true);
+			response.setMessage(properties.getExamTimeTableExist());
+		}else{
+			response.setStatus(false);
+		}
+		
+		return response;
+	}
+	
+	@RequestMapping(value="/showExamTimeTable",method = RequestMethod.GET)
+	public String showExamTimeTable(Model model){
+		
+		ExamTimeTableGrid timeTableGrid = new ExamTimeTableGrid();
+		timeTableGrid.setCaption("Exam Timing Table");
+		timeTableGrid.setMtype("GET");
+		timeTableGrid.setViewrecords(true);
+		timeTableGrid.setUrl("getExamTimeTableData");
+		timeTableGrid.setDataType("json");
+		
+		model.addAttribute("timeTableGrid",timeTableGrid);
+		
+		return "showExamTimeTable";
+	}
+	
+	
+	@RequestMapping(value="/getExamTimeTableData",method = RequestMethod.GET)
+	public @ResponseBody JqGridInfo<ExamTimeTableData> getExamTimeTableData(Model model){
+		
+		System.out.println("getExamTimeTableData");
+		
+		JqGridInfo<ExamTimeTableData> jqGridData = homeService.getJqGridDataForExamTimeTable();
+		
+		return jqGridData;
+	}
+
+	@RequestMapping(value="/saveExamTimeTable",method = RequestMethod.POST)
+	public String saveExamTimeTable(Model model,HttpServletRequest request){
+		
+		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
+		homeService.saveExamTimeTable(requestMap);
+		
+		return "showExamTimeTable";
 	}
 	
 	

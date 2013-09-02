@@ -11,6 +11,10 @@
 <script>
 
   $(function() {
+	  
+	  $.ajaxSetup({
+    	  async: false
+       });
 		
 		$("#dateOfBirth,#joiningDate").datepicker({
 			dateFormat : 'mm-dd-yy',
@@ -23,6 +27,9 @@
   
   function editStudent(){
 	  try {
+		  
+		 
+		  
 		 $.getJSON("${pageContext.request.contextPath}/saveStudentDetails",{studentId : $('#studentId').val(),name:$('#name').val(),surName:$('#surName').val(),dateOfBirth:$('#dateOfBirth').val(),joiningDate:$('#joiningDate').val(),isPhysicallyChallenged:$('#isPhysicallyChallenged').val(),description:$('#description').val()},function (json){ 
 			 alert(data);
 		 });

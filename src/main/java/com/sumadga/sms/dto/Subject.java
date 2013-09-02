@@ -2,6 +2,7 @@ package com.sumadga.sms.dto;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +39,9 @@ public class Subject implements Serializable {
 	//bi-directional many-to-one association to TeachingStaffSubject
 	@OneToMany(mappedBy="subject")
 	private List<TeachingStaffSubject> teachingStaffSubjects;
+	
+	@OneToMany(mappedBy="subject")
+	private List<ExamTimeTable> examTimeTables;
 
 	public Subject() {
 	}
@@ -98,4 +102,13 @@ public class Subject implements Serializable {
 		this.teachingStaffSubjects = teachingStaffSubjects;
 	}
 
+	public List<ExamTimeTable> getExamTimeTables() {
+		return examTimeTables;
+	}
+
+	public void setExamTimeTables(List<ExamTimeTable> examTimeTables) {
+		this.examTimeTables = examTimeTables;
+	}
+	
+	
 }
