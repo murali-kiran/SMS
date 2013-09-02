@@ -12,7 +12,8 @@ $(function(){
 	
 	$("#dateOfExam").datepicker({
 		dateFormat : 'mm-dd-yy',
-		maxDate : '0'
+		//maxDate : '0'
+		minDate: 0 
 	});	
 });
 

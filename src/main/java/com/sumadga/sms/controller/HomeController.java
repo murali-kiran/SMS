@@ -319,15 +319,6 @@ public class HomeController {
 	@RequestMapping(value="/showExamTimeTable",method = RequestMethod.GET)
 	public String showExamTimeTable(Model model){
 		
-		ExamTimeTableGrid timeTableGrid = new ExamTimeTableGrid();
-		timeTableGrid.setCaption("Exam Timing Table");
-		timeTableGrid.setMtype("GET");
-		timeTableGrid.setViewrecords(true);
-		timeTableGrid.setUrl("getExamTimeTableData");
-		timeTableGrid.setDataType("json");
-		
-		model.addAttribute("timeTableGrid",timeTableGrid);
-		
 		return "showExamTimeTable";
 	}
 	
