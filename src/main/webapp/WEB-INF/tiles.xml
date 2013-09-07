@@ -92,6 +92,11 @@
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/teacherSubjectsMapping.jsp" />
 	</definition>
 	
+	<definition name="classAndSectionsMapping" extends="baseDefination">
+		<put-attribute name="title-content" value="Class Sections Mapping" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/classSectionsMapping.jsp" />
+	</definition>
+	
 	<definition name="createExamType" extends="baseDefination">
 		<put-attribute name="title-content" value="Create Exam Type" />
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/createExamType.jsp" />

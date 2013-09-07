@@ -5,7 +5,7 @@
 <script>
   function formValidation(){
 	  
-	  var status ;
+/**	  var status ;
 	  try {
 		  
 		  $.ajaxSetup({
@@ -27,7 +27,9 @@
 	  
 		} catch (e) {
 		alert("exception : "+e);
-		}
+		}*/
+		
+		return true;
   }
   
  function getSubjectsOfTeacher(){
@@ -77,7 +79,16 @@
 
 <form method="post" action="${pageContext.servletContext.contextPath}/saveTeacherAndSubjectMapping" onsubmit="return formValidation();">
 	
-		<div class="error"></div>
+	<c:if test="${not empty response}">
+	<c:choose>
+	<c:when test="${response.status}">
+	<div class="success">${response.message}</div>
+	</c:when>
+	<c:otherwise>
+	<div class="error">${response.message}</div>
+	</c:otherwise>
+	</c:choose>
+	</c:if>
 	
 	<fieldset style="width: 80%;">
 		<legend>Teacher and Subjects Mapping</legend>

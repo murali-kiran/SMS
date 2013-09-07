@@ -1,5 +1,6 @@
 package com.sumadga.sms.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,6 +14,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sumadga.sms.dto.ClassSection;
+import com.sumadga.sms.dto.Section;
+import com.sumadga.sms.dto.StudentClass;
+import com.sumadga.sms.dto.TeachingStaffSubject;
 
 @Repository
 public class ClassSectionDao {
@@ -26,6 +30,8 @@ public class ClassSectionDao {
 	public void save(ClassSection entity) {
 		logger.info("saving ClassSection instance");
 		try {
+			entity.setCreatedTime(new Date());
+			entity.setModifiedTime(new Date());
 			entityManager.persist(entity);
 			logger.info("save successful");
 		} catch (RuntimeException re) {
@@ -129,5 +135,27 @@ public class ClassSectionDao {
 			logger.error("find all failed", re);
 			throw re;
 		}
+	}
+
+	public boolean isSectionAndClassAlreadyExist(StudentClass studentClass,Section section) {
+		
+		logger.info("finding TeachingStaffSubject instance with property: teachingStaffId ,property: teachingStaffId , property: subjectId" );
+		try {
+		
+			final String queryString = "select model from ClassSection model where model.section= :section and model.studentClass= :studentClass";
+
+			Query query = entityManager.createQuery(queryString,ClassSection.class);
+			query.setParameter("section", section);
+			query.setParameter("studentClass", studentClass);
+			
+			List<ClassSection> classSections = query.getResultList();
+			
+			return (classSections.size() > 0);
+			
+		} catch (RuntimeException re) {
+			logger.error("find by property name failed", re);
+			throw re;
+		}
+		
 	}
 }

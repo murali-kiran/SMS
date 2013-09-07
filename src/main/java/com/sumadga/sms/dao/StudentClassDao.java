@@ -64,7 +64,7 @@ public class StudentClassDao {
 		}
 	}
 
-	public StudentClass findById(Long id) {
+	public StudentClass findById(Integer id) {
 		logger.info("finding StudentClass instance with id: " + id);
 		try {
 			StudentClass instance = entityManager.find(StudentClass.class, id);

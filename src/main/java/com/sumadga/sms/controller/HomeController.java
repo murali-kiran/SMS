@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sumadga.sms.dao.SubjectDao;
 import com.sumadga.sms.dto.Designations;
 import com.sumadga.sms.dto.ExamType;
+import com.sumadga.sms.dto.Section;
 import com.sumadga.sms.dto.StudentClass;
 import com.sumadga.sms.dto.Subject;
+import com.sumadga.sms.dto.TeachingStaff;
 import com.sumadga.sms.model.ClassForm;
 import com.sumadga.sms.model.ExamTimeTableData;
 import com.sumadga.sms.model.ExamTimeTableGrid;
 import com.sumadga.sms.model.GenericBean;
 import com.sumadga.sms.model.JqGridInfo;
 import com.sumadga.sms.reponses.GenericJsonResponse;
+import com.sumadga.sms.reponses.SectionsOfClassResponse;
 import com.sumadga.sms.reponses.SubjectsOfTeacherResponse;
 import com.sumadga.sms.service.ClassesService;
 import com.sumadga.sms.service.HomeService;
@@ -156,6 +159,8 @@ public class HomeController {
 		return "createNewSubject";
 	}
 	
+	/* Begin of Teacher and subject Mapping   */
+	
 	@RequestMapping(value="/showTeacherAndSubjectMapping",method = RequestMethod.GET)
 	public String showTeacherAndSubjectMapping(Model model){
 		
@@ -188,11 +193,92 @@ public class HomeController {
 	public String saveTeacherAndSubjectMapping(Model model,HttpServletRequest request){
 		
 		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
-		homeService.saveSubjectsOfTeacher(requestMap);
+		boolean isSubjectsOfTeacherSaved = homeService.saveSubjectsOfTeacher(requestMap);
+		
+		List<Subject> subjects       = homeService.getAllSubjects();
+		List<GenericBean> teachers   = homeService.getTeachingStaff();
+		
+		model.addAttribute("teachers", teachers);
+		model.addAttribute("subjects",subjects);
+		
+		GenericJsonResponse response = new GenericJsonResponse();
+		
+		TeachingStaff teachingStaff = homeService.getTeachingStaffDetails(requestMap);
+		if(isSubjectsOfTeacherSaved){
+		
+		response.setStatus(true);
+		response.setMessage("Teaching Staff "+teachingStaff.getStaff().getName()+" subjects are saved successfully :)");
+		}else{
+		response.setStatus(false);
+		response.setMessage("Teaching Staff "+teachingStaff.getStaff().getName()+" subjects are not saved.Please Try Again.");
+		}
+		
+		model.addAttribute("response", response);
 		
 		return "teacherAndSubjectMapping";
 	}
 	
+	/* End of Teacher and Subject Mapping */
+	
+	/* Begin of Class and Sections Mapping */
+	
+	@RequestMapping(value="/showClassAndSectionMapping",method = RequestMethod.GET)
+	public String showClassAndSectionMapping(Model model){
+		
+		List<StudentClass> classes     = homeService.getAllClasses();
+		List<Section>      sections    = homeService.getAllSections();
+		
+		model.addAttribute("classes", classes);
+		model.addAttribute("sections",sections);
+		
+		return "classAndSectionsMapping";
+	}
+	
+	@RequestMapping(value="/getSectionsOfClass",method = RequestMethod.GET)
+	public @ResponseBody SectionsOfClassResponse getSectionsOfClass(Model model,HttpServletRequest request){
+		
+		SectionsOfClassResponse response = new SectionsOfClassResponse();
+		Map<String,String> requestMap = RequestUtil.INSTANCE.dumpRequestScope(request);
+		
+		List<Integer> sectionIds = homeService.getClassSubjects(Integer.parseInt(requestMap.get("classId")));
+		
+		response.setClassSectionIds(sectionIds);
+		response.setStatus(true);
+		return response;
+	}
+	
+	
+	@RequestMapping(value="/saveClassAndSectionMapping",method = RequestMethod.POST)
+	public String saveClassAndSectionMapping(Model model,HttpServletRequest request){
+		
+		Map<String,String> requestMap = RequestUtil.INSTANCE.dumpRequestScope(request);
+		boolean isSectionsOfClassSaved = homeService.saveSectionsOfClass(requestMap);
+		
+		List<StudentClass> classes     = homeService.getAllClasses();
+		List<Section>      sections    = homeService.getAllSections();
+		
+		model.addAttribute("classes", classes);
+		model.addAttribute("sections",sections);
+		
+        GenericJsonResponse response = new GenericJsonResponse();
+		
+        Integer classId = Integer.parseInt(requestMap.get("classList"));
+		StudentClass studentClass = homeService.getClassDetails(classId);
+		if(isSectionsOfClassSaved){
+		
+		response.setStatus(true);
+		response.setMessage("Class "+studentClass.getClassName()+" sections are saved successfully :)");
+		}else{
+		response.setStatus(false);
+		response.setMessage("Class "+studentClass.getClassName()+" sections are not saved.Please Try Again.");
+		}
+		
+		model.addAttribute("response", response);
+		
+		return "classAndSectionsMapping";
+	}
+	
+	/* End of Class and Sections Mapping */
 	
 /*	@RequestMapping(value = "/saveNewClass", method = RequestMethod.POST)
 	public String  saveStudentDetails(Model model,HttpServletRequest request)
@@ -342,7 +428,4 @@ public class HomeController {
 		return "showExamTimeTable";
 	}
 	
-	
-	
-
 }

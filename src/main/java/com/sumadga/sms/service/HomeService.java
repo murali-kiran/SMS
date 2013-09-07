@@ -12,17 +12,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sumadga.sms.dao.ClassSectionDao;
 import com.sumadga.sms.dao.DesignationsDao;
 import com.sumadga.sms.dao.ExamTimeTableDao;
 import com.sumadga.sms.dao.ExamTypeDao;
+import com.sumadga.sms.dao.SectionDao;
 import com.sumadga.sms.dao.StaffDao;
 import com.sumadga.sms.dao.StudentClassDao;
 import com.sumadga.sms.dao.SubjectDao;
 import com.sumadga.sms.dao.TeachingStaffDao;
 import com.sumadga.sms.dao.TeachingStaffSubjectDao;
+import com.sumadga.sms.dto.ClassSection;
 import com.sumadga.sms.dto.Designations;
 import com.sumadga.sms.dto.ExamTimeTable;
 import com.sumadga.sms.dto.ExamType;
+import com.sumadga.sms.dto.Section;
 import com.sumadga.sms.dto.Staff;
 import com.sumadga.sms.dto.StudentClass;
 import com.sumadga.sms.dto.Subject;
@@ -52,6 +56,10 @@ public class HomeService {
 	private StudentClassDao studentClassDao;
 	@Autowired
 	private ExamTimeTableDao examTimeTableDao;
+	@Autowired
+	private SectionDao sectionDao;
+	@Autowired
+	private ClassSectionDao classSectionDao;
 	
 	private static final Logger logger = Logger.getLogger(HomeService.class);
 	
@@ -212,6 +220,13 @@ public boolean  isAlreadyClassExist(Map<String, String> requestMap){
 		}
 	}
 	
+	
+	public List<Section> getAllSections(){
+	  return sectionDao.findAll();
+	}
+	
+	
+	
 	public List<Integer> getTeachingSubjects(int teacherStaffId){
 		try {
 			TeachingStaff teachingStaff = new TeachingStaff();
@@ -227,6 +242,26 @@ public boolean  isAlreadyClassExist(Map<String, String> requestMap){
 			
 			} catch (Exception e) {
 				logger.error("Teaching staff Subjects details are not retrived", e);
+				return null;
+			}
+	}
+	
+	
+	public List<Integer> getClassSubjects(int classId){
+		try {
+			logger.info("Before of getting sections of class");
+			StudentClass studentClass = new StudentClass();
+			studentClass.setClassId(classId);
+			
+			List<ClassSection> classSections = classSectionDao.findByProperty("studentClass",studentClass);
+			List<Integer> sectionIds = new ArrayList<Integer>();
+			for(ClassSection classSection : classSections){
+				sectionIds.add(classSection.getSection().getSectionId());
+			}
+			return sectionIds;
+			
+			} catch (Exception e) {
+				logger.error("Class Sections details are not retrived", e);
 				return null;
 			}
 	}
@@ -259,6 +294,38 @@ public boolean  isAlreadyClassExist(Map<String, String> requestMap){
 			return true;
 		} catch (Exception e) {
 			logger.error("Teacher and Subjects Mappinh Failed", e);
+			return null;
+		}
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
+	public Boolean saveSectionsOfClass(Map<String, String> requestMap) {
+		try {
+			
+			logger.info("Before saving the sections of the class ");
+			Integer classId = Integer.parseInt(requestMap.get("classList"));
+			String [] sectionsId =  requestMap.get("section").toString().split(",");
+			
+			StudentClass studentClass = new StudentClass();
+			studentClass.setClassId(classId);
+			
+			for(String sectionId : sectionsId){
+				
+				Section section = new Section();
+				section.setSectionId(Integer.parseInt(sectionId));
+				
+				if(!classSectionDao.isSectionAndClassAlreadyExist(studentClass,section)){
+					ClassSection classSection = new ClassSection();
+					classSection.setSection(section);
+					classSection.setStudentClass(studentClass);
+					classSectionDao.save(classSection);
+				}
+				
+			}
+			
+			return true;
+		} catch (Exception e) {
+			logger.error("Class and section mapping Failed", e);
 			return null;
 		}
 	}
@@ -406,6 +473,17 @@ public boolean  isAlreadyClassExist(Map<String, String> requestMap){
 		return true;
 	}
 		return false;
+	}
+
+	public TeachingStaff getTeachingStaffDetails(Map<String, String> requestMap) {
+		Long teachingStaffId = Long.parseLong(requestMap.get("teacherList"));
+		TeachingStaff teachingStaff = teachingStaffDao.findById(teachingStaffId);
+		return teachingStaff;
+	}
+
+	public StudentClass getClassDetails(Integer classId) {
+		StudentClass studentClass = studentClassDao.findById(classId);
+		return studentClass;
 	}
 	
 }
