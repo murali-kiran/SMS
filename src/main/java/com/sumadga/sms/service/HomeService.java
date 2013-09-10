@@ -16,6 +16,7 @@ import com.sumadga.sms.dao.ClassSectionDao;
 import com.sumadga.sms.dao.DesignationsDao;
 import com.sumadga.sms.dao.ExamTimeTableDao;
 import com.sumadga.sms.dao.ExamTypeDao;
+import com.sumadga.sms.dao.MainTableDao;
 import com.sumadga.sms.dao.SectionDao;
 import com.sumadga.sms.dao.StaffDao;
 import com.sumadga.sms.dao.StudentClassDao;
@@ -26,6 +27,7 @@ import com.sumadga.sms.dto.ClassSection;
 import com.sumadga.sms.dto.Designations;
 import com.sumadga.sms.dto.ExamTimeTable;
 import com.sumadga.sms.dto.ExamType;
+import com.sumadga.sms.dto.MainTable;
 import com.sumadga.sms.dto.Section;
 import com.sumadga.sms.dto.Staff;
 import com.sumadga.sms.dto.StudentClass;
@@ -60,6 +62,8 @@ public class HomeService {
 	private SectionDao sectionDao;
 	@Autowired
 	private ClassSectionDao classSectionDao;
+	@Autowired
+	private MainTableDao mainTableDao;
 	
 	private static final Logger logger = Logger.getLogger(HomeService.class);
 	
@@ -484,6 +488,42 @@ public boolean  isAlreadyClassExist(Map<String, String> requestMap){
 	public StudentClass getClassDetails(Integer classId) {
 		StudentClass studentClass = studentClassDao.findById(classId);
 		return studentClass;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
+	public boolean saveClassDetails(Map<String, String> requestMap) {
+		try {
+		// {sectionId=1, academicEndYear=09-27-2013, classId=3, academicStartYear=09-04-2013, teacherId=1}	
+		int classId = Integer.parseInt(requestMap.get("classId"));
+		int sectionId = Integer.parseInt(requestMap.get("sectionId"));
+		
+		Date startYearDate = CommonUtils.getStringToDate(requestMap.get("academicStartYear"));
+		Date endYearDate   = CommonUtils.getStringToDate(requestMap.get("academicEndYear"));
+		
+		
+		StudentClass studentClass = new StudentClass();
+		studentClass.setClassId(classId);
+		
+		Section section = new Section();
+		section.setSectionId(sectionId);
+		
+		ClassSection classSection = classSectionDao.getInfoUsingClassAndSection(studentClass,section);
+		
+		TeachingStaff teachingStaff = new TeachingStaff();
+		teachingStaff.setTeachingStaffId(Integer.parseInt(requestMap.get("teacherId")));
+		  
+		MainTable mainTable = new MainTable();
+		mainTable.setTeachingStaff(teachingStaff);
+		mainTable.setClassSection(classSection);
+		mainTable.setAcademicStartYear(startYearDate);
+		mainTable.setAcademicEndYear(endYearDate);
+		mainTableDao.save(mainTable);
+		return true;
+				
+		} catch (Exception e) {
+			logger.error("exception while saving classDetails", e);
+			return false;
+		}
 	}
 	
 }

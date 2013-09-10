@@ -158,4 +158,25 @@ public class ClassSectionDao {
 		}
 		
 	}
+
+	public ClassSection getInfoUsingClassAndSection(StudentClass studentClass,
+			Section section) {
+		logger.info("finding TeachingStaffSubject instance with property: teachingStaffId ,property: teachingStaffId , property: subjectId" );
+		try {
+		
+			final String queryString = "select model from ClassSection model where model.section= :section and model.studentClass= :studentClass";
+
+			Query query = entityManager.createQuery(queryString,ClassSection.class);
+			query.setParameter("section", section);
+			query.setParameter("studentClass", studentClass);
+			
+			ClassSection classSection = (ClassSection)query.getSingleResult();
+			
+			return classSection;
+			
+		} catch (RuntimeException re) {
+			logger.error("find by property name failed", re);
+			throw re;
+		}
+	}
 }

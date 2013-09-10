@@ -25,43 +25,62 @@ $(function(){
 		  status= false;
 		  $("select[name='examTypeList'] ~ span").remove();
 		  $("select[name='examTypeList']").after($('<span style="color:#ff0000">&nbsp;*</span>'));
+	  }else{
+		  $("select[name='examTypeList'] ~ span").remove();
 	  }
 	  if($("select[name='classList'] :selected").val()==""){
 		  status= false;
 		  $("select[name='classList'] ~ span").remove();
 		  $("select[name='classList']").after($('<span style="color:#ff0000">&nbsp;*</span>'));
+	  }else{
+		  $("select[name='classList'] ~ span").remove();
 	  }
 	  if($("select[name='subjectList'] :selected").val()==""){
 		  status= false;
 		  $("select[name='subjectList'] ~ span").remove();
 		  $("select[name='subjectList']").after($('<span style="color:#ff0000">&nbsp;*</span>'));
-	  } 
+	  }else{
+		  $("select[name='subjectList'] ~ span").remove();
+	  }
 	  if($("select[name='teacherList'] :selected").val()==""){
 		  status= false;
 		  $("select[name='teacherList'] ~ span").remove();
 		  $("select[name='teacherList']").after($('<span style="color:#ff0000">&nbsp;*</span>'));
+	  }else{
+		  $("select[name='teacherList'] ~ span").remove();
 	  }
 	  if($("#dateOfExam").val()==""){
 		  status= false;
 		  $("#dateOfExam ~ span").remove();
 		  $("#dateOfExam").after($('<span style="color:#ff0000">&nbsp;*</span>'));
+	  }else{
+		  $("#dateOfExam ~ span").remove();
 	  }
 	  
 	  if($("#startTime").val()==""){
 		  status= false;
 		  $("#startTime ~ span").remove();
 		  $("#startTime").after($('<span style="color:#ff0000">&nbsp;*</span>'));
+	  }else{
+		  $("#startTime ~ span").remove();
 	  }
+	  
 	  if($("#endTime").val()==""){
 		  status= false;
 		  $("#endTime ~ span").remove();
 		  $("#endTime").after($('<span style="color:#ff0000">&nbsp;*</span>'));
+	  }else{
+		  $("#endTime ~ span").remove();
 	  }
+	  
 	  if($("#maxMarks").val()==""){
 		  status= false;
 		  $("#maxMarks ~ span").remove();
 		  $("#maxMarks").after($('<span style="color:#ff0000">&nbsp;*</span>'));
+	  }else{
+		  $("#maxMarks ~ span").remove();
 	  }
+	  
 	  if(!status){
 		  $('.error').text("* Required Fields");
 	  }else{
@@ -83,7 +102,6 @@ $(function(){
 				  
 				  }
 		  });
-		  
 		  
 	  }
 	  

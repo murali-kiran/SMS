@@ -54,5 +54,10 @@
 		<td><a href="${pageContext.servletContext.contextPath}/showExamTimeTable">Show Exam TimeTable</a></td>
 	</tr>
 	
+	<tr height="30px;">
+		<td><a href="${pageContext.servletContext.contextPath}/addClassDetails">Class Details</a></td>
+	</tr>
+	
+	
 </table>
 </div>

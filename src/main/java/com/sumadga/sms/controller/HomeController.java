@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,6 @@ import com.sumadga.sms.dto.Subject;
 import com.sumadga.sms.dto.TeachingStaff;
 import com.sumadga.sms.model.ClassForm;
 import com.sumadga.sms.model.ExamTimeTableData;
-import com.sumadga.sms.model.ExamTimeTableGrid;
 import com.sumadga.sms.model.GenericBean;
 import com.sumadga.sms.model.JqGridInfo;
 import com.sumadga.sms.reponses.GenericJsonResponse;
@@ -46,6 +46,8 @@ public class HomeController {
 	
 	@Autowired
 	private SubjectDao  subjectDao;
+	
+	private static final Logger logger = Logger.getLogger(HomeController.class);
 	
 	
 	@RequestMapping(value="/",method = RequestMethod.GET)
@@ -300,13 +302,15 @@ public class HomeController {
 		model.addAttribute("classes", classes);
 //		model.addAttribute("classForm", new ClassForm());
 		return "classInfo";
-	}*/
+	}
 	
 	@RequestMapping(value="/saveClassDetails",method = RequestMethod.POST)
 	public String saveClassDetails(Model model,HttpServletRequest request){
 		
 		return "classInfo";
 	}
+	
+	*/
 	
 	// Exam Type
 	@RequestMapping(value="/createExamType",method = RequestMethod.GET)
@@ -427,5 +431,43 @@ public class HomeController {
 		
 		return "showExamTimeTable";
 	}
+		
+	/** Begin of adding the class details    */
+	@RequestMapping(value="/addClassDetails",method = RequestMethod.GET)
+	public String addClassDetails(Model model,HttpServletRequest request){
+		logger.info("Request for adding the class details");
+		
+		List<GenericBean>    teachers        = homeService.getTeachingStaff();
+		List<StudentClass>   studentClasses  = homeService.getAllClasses();
+		List<Section>        sections        = homeService.getAllSections();
+		
+		model.addAttribute("teachers", teachers);
+		model.addAttribute("classes", studentClasses);
+		model.addAttribute("sections",sections);
+		
+		
+		return "addClassDetails";
+	}
+	
+	@RequestMapping(value="/saveClassDetails",method = RequestMethod.POST)
+	public String saveClassDetails(Model model,HttpServletRequest request){
+		logger.info("Request for saving the class details");
+		Map<String,String> requestMap  = RequestUtil.INSTANCE.dumpRequestScope(request);
+		boolean isSectionsOfClassSaved = homeService.saveClassDetails(requestMap);
+		  GenericJsonResponse response = new GenericJsonResponse();
+		if(isSectionsOfClassSaved){
+			response.setStatus(true);
+			response.setMessage("Class details are saved successfully :)");
+		}else{
+			response.setStatus(false);
+			response.setMessage("Class details are not saved successfully :)");
+		}
+		
+		model.addAttribute("response", response);
+		
+		return "addClassDetails";
+	}
+	
+	/** End of adding the class details    */
 	
 }

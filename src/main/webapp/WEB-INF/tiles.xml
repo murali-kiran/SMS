@@ -117,4 +117,9 @@
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/showExamTimeTable.jsp" />
 	</definition>
 	
+	<definition name="addClassDetails" extends="baseDefination">
+		<put-attribute name="title-content" value="Add Class Details" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/addClassDetails.jsp" />
+	</definition>
+	
 </tiles-definitions>       
