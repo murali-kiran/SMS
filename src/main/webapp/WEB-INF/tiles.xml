@@ -9,7 +9,7 @@
 		<put-attribute name="title-content" value="" />
 		<put-attribute name="css-content" value="/WEB-INF/views/sections/css.jsp" />
 		<put-attribute name="js-content" value="/WEB-INF/views/sections/js.jsp" />
-		<!-- <put-attribute name="header-content" value="/WEB-INF/views/sections/header.jsp" /> -->
+	    <put-attribute name="header-content" value="/WEB-INF/views/sections/header.jsp" />
 		<put-attribute name="side-panel-content" value="/WEB-INF/views/sections/side_panel.jsp" /> 
 		<!-- <put-attribute name="menu-content" value="" /> -->
 		<!-- <put-attribute name="nav-menu-content" value="/WEB-INF/views/sections/menu_nav.jsp" /> -->
@@ -65,6 +65,11 @@
 	<definition name="createNewClass" extends="baseDefination">
 		<put-attribute name="title-content" value="Create Class" />
 		<put-attribute name="body-content" value="/WEB-INF/views/pages/createClass.jsp" />
+	</definition>
+	
+	<definition name="createNewRoom" extends="baseDefination">
+		<put-attribute name="title-content" value="Create Rooms" />
+		<put-attribute name="body-content" value="/WEB-INF/views/pages/createNewRoom.jsp" />
 	</definition>
 	
 	<definition name="createNewSubject" extends="baseDefination">
