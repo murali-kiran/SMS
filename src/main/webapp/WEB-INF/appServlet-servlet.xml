@@ -91,6 +91,8 @@
 				group-authorities-by-username-query="select g.id, g.group_name, ga.authority from groups g, group_members gm, group_authorities ga where gm.username = ? and g.id = ga.group_id and g.id = gm.group_id" />
 		</security:authentication-provider>
 	</security:authentication-manager>
+	
+	<bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" /> 
 
 
 	<bean name="messageSource"	class="org.springframework.context.support.ResourceBundleMessageSource">

@@ -1,5 +1,6 @@
 package com.sumadga.sms.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sumadga.sms.dao.SubjectDao;
+import com.sumadga.sms.dto.ClassSection;
 import com.sumadga.sms.dto.Designations;
 import com.sumadga.sms.dto.ExamType;
 import com.sumadga.sms.dto.Section;
@@ -242,9 +244,39 @@ public class HomeController {
 		SectionsOfClassResponse response = new SectionsOfClassResponse();
 		Map<String,String> requestMap = RequestUtil.INSTANCE.dumpRequestScope(request);
 		
-		List<Integer> sectionIds = homeService.getClassSubjects(Integer.parseInt(requestMap.get("classId")));
+		List<ClassSection> classSections = homeService.getClassSections(Integer.parseInt(requestMap.get("classId")));
+		List<Integer> sectionIds = new ArrayList<Integer>();
+		
+		if(classSections!=null && classSections.size()>0){
+			for(ClassSection classSection : classSections){
+				sectionIds.add(classSection.getSection().getSectionId());
+			}
+		}
 		
 		response.setClassSectionIds(sectionIds);
+		response.setStatus(true);
+		return response;
+	}
+	
+	
+	@RequestMapping(value="/getSectionsOfClassAjax",method = RequestMethod.GET)
+	public @ResponseBody SectionsOfClassResponse getSectionsOfClassAjax(Model model,HttpServletRequest request){
+		
+		SectionsOfClassResponse response = new SectionsOfClassResponse();
+		Map<String,String> requestMap = RequestUtil.INSTANCE.dumpRequestScope(request);
+		
+		List<ClassSection> classSections = homeService.getClassSections(Integer.parseInt(requestMap.get("classId")));
+		
+		List<GenericBean> sections = new ArrayList<GenericBean>();
+		
+		for(ClassSection classSection : classSections){
+			GenericBean genericBean = new GenericBean();
+			genericBean.setId(classSection.getClassSectionId());
+			genericBean.setName(classSection.getSection().getSectionName());
+			sections.add(genericBean);
+		}
+		
+		response.setClassSections(sections);
 		response.setStatus(true);
 		return response;
 	}
@@ -342,7 +374,7 @@ public class HomeController {
 		return response;
 	}
 	
-	// New Class
+	// Begin of new Class
 	
 	@RequestMapping(value="/showNewClass",method = RequestMethod.GET)
 	public String showNewClass(Model model){
@@ -353,9 +385,9 @@ public class HomeController {
 	public String saveClassInfo(Model model,HttpServletRequest request){
 		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
 		if(homeService.saveClassInfo(requestMap)){
-			model.addAttribute("successMsg", properties.getExamTypeSaveSuccess());
+			model.addAttribute("successMsg", properties.getNewClassSaveSuccess());
 		}
-		return "createExamType";
+		return "showNewClass";
 	}
 	
 	@RequestMapping(value="/alreadyClassExist",method = RequestMethod.GET)
@@ -365,13 +397,48 @@ public class HomeController {
 		GenericJsonResponse response = new GenericJsonResponse();
 		if(homeService.isAlreadyClassExist(requestMap)){
 			response.setStatus(true);
-			response.setMessage(properties.getExamTypeAlreadyExist());
+			response.setMessage(properties.getClassAlreadyExist());
 		}else{
 			response.setStatus(false);
 		}
 		
 		return response;
 	}
+	
+	//end of new class
+	
+	// begin of new Room
+	
+	@RequestMapping(value="/createNewRoom",method = RequestMethod.GET)
+	public String createNewRoom(Model model){
+		return "createNewRoom";
+	}
+	
+	@RequestMapping(value="/saveRoomInfo",method = RequestMethod.POST)
+	public String saveRoomInfo(Model model,HttpServletRequest request){
+		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
+		if(homeService.saveRoomInfo(requestMap)){
+			model.addAttribute("successMsg", properties.getNewRoomSaveSuccess());
+		}
+		return "createExamType";
+	}
+	
+	@RequestMapping(value="/alreadyRoomExist",method = RequestMethod.GET)
+	public @ResponseBody GenericJsonResponse alreadyRoomExist(Model model,HttpServletRequest request){
+		
+		Map<String,String> requestMap =RequestUtil.INSTANCE.dumpRequestScope(request);
+		GenericJsonResponse response = new GenericJsonResponse();
+		if(homeService.isAlreadyRoomExist(requestMap)){
+			response.setStatus(true);
+			response.setMessage(properties.getRoomAlreadyExist());
+		}else{
+			response.setStatus(false);
+		}
+		
+		return response;
+	}
+	
+	//end of new room
 	
 	
 	// ExamTimeTable

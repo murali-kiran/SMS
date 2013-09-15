@@ -27,6 +27,10 @@
 	</tr>
 	
 	<tr height="30px;">
+		<td><a href="${pageContext.servletContext.contextPath}/createNewRoom">New Room</a></td>
+	</tr>
+	
+	<tr height="30px;">
 		<td><a href="${pageContext.servletContext.contextPath}/createStaff">New Staff</a></td>
 	</tr>
 	

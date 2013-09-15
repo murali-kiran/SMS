@@ -71,6 +71,19 @@ public class ValidationProperties {
 	@Value("${examTimeTableExist}")
 	private String examTimeTableExist;
 	
+	@Value("${classAlreadyExist}")
+	private String classAlreadyExist;
+	
+	@Value("${roomAlreadyExist}")
+	private String roomAlreadyExist;
+	
+	
+	@Value("${newClassSaveSuccess}")
+	private String newClassSaveSuccess;
+	
+	@Value("${newRoomSaveSuccess}")
+	private String newRoomSaveSuccess;
+	
 	
 	public String getExamTimeTableExist() {
 		return examTimeTableExist;
@@ -204,6 +217,32 @@ public class ValidationProperties {
 	public void setExamTypeSaveSuccess(String examTypeSaveSuccess) {
 		this.examTypeSaveSuccess = examTypeSaveSuccess;
 	}
+	public String getClassAlreadyExist() {
+		return classAlreadyExist;
+	}
+	public void setClassAlreadyExist(String classAlreadyExist) {
+		this.classAlreadyExist = classAlreadyExist;
+	}
+	public String getRoomAlreadyExist() {
+		return roomAlreadyExist;
+	}
+	public void setRoomAlreadyExist(String roomAlreadyExist) {
+		this.roomAlreadyExist = roomAlreadyExist;
+	}
+	public String getNewClassSaveSuccess() {
+		return newClassSaveSuccess;
+	}
+	public void setNewClassSaveSuccess(String newClassSaveSuccess) {
+		this.newClassSaveSuccess = newClassSaveSuccess;
+	}
+	public String getNewRoomSaveSuccess() {
+		return newRoomSaveSuccess;
+	}
+	public void setNewRoomSaveSuccess(String newRoomSaveSuccess) {
+		this.newRoomSaveSuccess = newRoomSaveSuccess;
+	}
+	
+	
 	
 	
 }

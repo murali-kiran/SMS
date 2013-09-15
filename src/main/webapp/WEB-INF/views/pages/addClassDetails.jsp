@@ -60,6 +60,27 @@
 	  return status;
   } 
   
+  function getSectionsOfClass(reff){
+	  var classId = $(reff).val();
+	  
+      $.ajaxSetup({
+    	  async: false
+       });
+      try {
+	  $.getJSON("${pageContext.servletContext.contextPath}/getSectionsOfClassAjax", {classId:classId},function(json) {
+			  alert(json);
+	  	  if(json.status){
+			  for(var i=0;i< json.classSections.length;i++){
+				  $("select[name='sectionId']").append(" <option value='"+json.classSections[i].id+"'>section-"+json.classSections[i].name+"</option>");
+			  }
+			  
+			  }
+	  });
+		} catch (e) {
+			alert(e);
+		}
+  }
+  
 </script>
 
 
@@ -89,7 +110,7 @@
 			<tr>
 				<td><label  for="studentClass" style="font-weight: bold;font-size: 13.5px;color: #333333;">Select Class</label></td>
 				<td>
-				<select name="classId" >
+				<select name="classId" onchange="getSectionsOfClass(this)">
 					<option value="">-Select-</option>
 						<c:forEach items="${classes}" var="class">
 						   <option value="${class.classId}">${class.className}</option>
@@ -102,9 +123,9 @@
 				<td>
 				    <select name="sectionId" >
 							<option value="">-Select-</option>
-							<c:forEach items="${sections}" var="section">
+					<%-- 		<c:forEach items="${sections}" var="section">
 								<option value="${section.sectionId}">${section.sectionName}</option>
-							</c:forEach>
+							</c:forEach> --%>
 					</select>
 				</td>
 			</tr>

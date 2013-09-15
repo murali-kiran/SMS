@@ -1,5 +1,6 @@
 package com.sumadga.sms.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -26,6 +27,8 @@ public class LocationDao {
 	public void save(Location entity) {
 		logger.info("saving Location instance");
 		try {
+			entity.setCreatedTime(new Date());
+			entity.setModifiedTime(new Date());
 			entityManager.persist(entity);
 			logger.info("save successful");
 		} catch (RuntimeException re) {

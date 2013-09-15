@@ -6,7 +6,7 @@
 <head>
 <title>SMS | <%-- <tiles:insertAttribute name="header-title-content" /> --%></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<tiles:insertAttribute name="js-content" />
+<tiles:insertAttribute name="js-content"  />
 <tiles:insertAttribute name="css-content" />
 </head>
 <body style="margin: 0px; padding: 0px;">
@@ -14,11 +14,8 @@
 	<table border="1" cellspacing="0" cellpadding="0" class="layout" >
 		<tr class="header">
 		<td colspan="2" align="center">
-		
-		<%-- <tiles:insertAttribute name="header-content" /> --%>
-		
-		SUMADGA HEADER
-		
+		 <tiles:insertAttribute name="header-content" /> 
+		<!-- SUMADGA HEADER -->
 		</td>
 		</tr>
 		

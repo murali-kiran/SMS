@@ -16,6 +16,7 @@ import com.sumadga.sms.dao.ClassSectionDao;
 import com.sumadga.sms.dao.DesignationsDao;
 import com.sumadga.sms.dao.ExamTimeTableDao;
 import com.sumadga.sms.dao.ExamTypeDao;
+import com.sumadga.sms.dao.LocationDao;
 import com.sumadga.sms.dao.MainTableDao;
 import com.sumadga.sms.dao.SectionDao;
 import com.sumadga.sms.dao.StaffDao;
@@ -27,6 +28,7 @@ import com.sumadga.sms.dto.ClassSection;
 import com.sumadga.sms.dto.Designations;
 import com.sumadga.sms.dto.ExamTimeTable;
 import com.sumadga.sms.dto.ExamType;
+import com.sumadga.sms.dto.Location;
 import com.sumadga.sms.dto.MainTable;
 import com.sumadga.sms.dto.Section;
 import com.sumadga.sms.dto.Staff;
@@ -64,6 +66,9 @@ public class HomeService {
 	private ClassSectionDao classSectionDao;
 	@Autowired
 	private MainTableDao mainTableDao;
+	@Autowired
+	private LocationDao locationDao;
+	
 	
 	private static final Logger logger = Logger.getLogger(HomeService.class);
 	
@@ -154,7 +159,25 @@ public boolean  isAlreadyClassExist(Map<String, String> requestMap){
 		}
 		
 		return isClassAlreadyExist;
-	}	
+	}
+
+public boolean  isAlreadyRoomExist(Map<String, String> requestMap){
+	
+	String roomNameStr = requestMap.get("roomNames").trim();
+	
+	String [] roomNames = roomNameStr.split(",");
+	boolean isRoomAlreadyExist = false;
+	
+	for(String roomName : roomNames){
+		List<Location> locations = locationDao.findByProperty("locationName",roomName);
+		if(locations.size() > 0){
+			isRoomAlreadyExist = true;
+			break;
+		}
+	}
+	
+	return isRoomAlreadyExist;
+}
 	
 	public boolean  isAlreadySubjectExist(Map<String, String> requestMap){
 		List<Designations> designations = designationsDao.isDesignationExist(requestMap.get("designationName"),Byte.parseByte(requestMap.get("designationType")));
@@ -250,8 +273,22 @@ public boolean  isAlreadyClassExist(Map<String, String> requestMap){
 			}
 	}
 	
+	public List<ClassSection> getClassSections(int classId){
+		try {
+			logger.info("Before of getting sections of class");
+			StudentClass studentClass = new StudentClass();
+			studentClass.setClassId(classId);
+			List<ClassSection> classSections = classSectionDao.findByProperty("studentClass",studentClass);
+			
+			return classSections;
+			
+			} catch (Exception e) {
+				logger.error("Class Sections details are not retrived", e);
+				return null;
+			}
+	}
 	
-	public List<Integer> getClassSubjects(int classId){
+/*	public List<Integer> getClassSubjects(int classId){
 		try {
 			logger.info("Before of getting sections of class");
 			StudentClass studentClass = new StudentClass();
@@ -268,7 +305,7 @@ public boolean  isAlreadyClassExist(Map<String, String> requestMap){
 				logger.error("Class Sections details are not retrived", e);
 				return null;
 			}
-	}
+	}*/
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
 	public Boolean saveSubjectsOfTeacher(Map<String, String> requestMap) {
@@ -364,6 +401,27 @@ public boolean  isAlreadyClassExist(Map<String, String> requestMap){
 			StudentClass studentClass = new StudentClass();
 			studentClass.setClassName(className.toLowerCase());
 			studentClassDao.save(studentClass);
+		}
+		
+		return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
+	public boolean saveRoomInfo(Map<String, String> requestMap){
+		
+		String [] roomNames = requestMap.get("roomName").split(",");
+		try {
+	
+		for(String roomName : roomNames){
+			
+			Location location = new Location();
+			location.setLocationName(roomName.toLowerCase());
+			
+			locationDao.save(location);
 		}
 		
 		return true;
