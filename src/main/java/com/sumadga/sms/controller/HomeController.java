@@ -46,8 +46,8 @@ public class HomeController {
 	@Autowired
 	private ValidationProperties properties;
 	
-	@Autowired
-	private SubjectDao  subjectDao;
+	//@Autowired
+	//private SubjectDao  subjectDao;
 	
 	private static final Logger logger = Logger.getLogger(HomeController.class);
 	
